@@ -5,9 +5,16 @@ export function LocationsDisplay({ regionLoc }) {
     regionLoc.map((location, index) => (
       <div
         key={location + index}
-        className="flex flex-row text-start justify-start text-cyan-200 min-w-72 text-base"
+        className="flex text-start justify-start text-cyan-200 min-w-fit max-w-fit text-base items-center"
       >
-        {location.name.replace("-", " ").replace("--", " ").toUpperCase()}
+        {location.name
+          .replace("-", " ")
+          .replace("--", " ")
+          .replace("-", " ")
+          .replace("-", " ")
+          .replace("-", " ")
+          .replace("-", " ")
+          .toUpperCase()}
       </div>
     ))
   ) : (

@@ -5,14 +5,14 @@ export function RegionSelector({ pokeRegion, RGB }) {
     pokeRegion.map((region, index) => (
       <div
         key={region + index}
-        className="flex flex-col max-w-56 max-h-48 min-w-56 min-h-48 pt-0.5 items-center"
+        className="flex flex-col size-32 pt-1.5 pl-0.5 items-center"
       >
         <div
           style={{ backgroundImage: `url(${RGB[index]})` }}
-          className="border-8 border-slate-900 min-h-48 max-h-48 max-w-48 min-w-48 w-full flex bg-center notched-corner"
+          className="border-4 border-white min-h-24 max-h-24 max-w-24 min-w-24 w-full flex bg-center notched-corner"
         />
-        <div className="absolute -top-14 flex items-center justify-center min-h-24 min-w-40 max-w-40 pipa-corner bg-slate-900">
-          <h1 className="font-extrabold text-4xl flex text-white font-sans underline underline-offset-8">
+        <div className="absolute -top-7 flex items-center justify-center min-h-12 min-w-20 max-w-40 pipa-corner bg-white">
+          <h1 className="font-extrabold flex text-slate-900 font-sans">
             {region.name.charAt(0).toUpperCase() + region.name.slice(1)}
           </h1>
         </div>
