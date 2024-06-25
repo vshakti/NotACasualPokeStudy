@@ -1,11 +1,18 @@
 import "../index.css";
 
-export function LocationsDisplay({ regionLoc }) {
+export function LocationsDisplay({
+  regionLoc,
+  locationDisplayStyle,
+  setLocationId,
+}) {
   return regionLoc && regionLoc.length ? (
     regionLoc.map((location, index) => (
-      <div
+      <button
+        onClick={() => {
+          setLocationId(location.name);
+        }}
         key={location + index}
-        className="flex text-start justify-start text-cyan-200 min-w-fit max-w-fit text-base items-center"
+        className={`flex text-start justify-start text-cyan-200 min-w-fit max-w-fit text-base items-center ${locationDisplayStyle}`}
       >
         {location.name
           .replace("-", " ")
@@ -15,7 +22,7 @@ export function LocationsDisplay({ regionLoc }) {
           .replace("-", " ")
           .replace("-", " ")
           .toUpperCase()}
-      </div>
+      </button>
     ))
   ) : (
     <h1>Loading...</h1>

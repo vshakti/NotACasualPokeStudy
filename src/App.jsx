@@ -30,6 +30,20 @@ function App() {
   ];
   let possibleOptions = ["Regions", "Pokemons", "Elements"];
   const [pokebolaCount, setPokebolaCount] = useState(0);
+  const [locationId, setLocationId] = useState();
+  const [areaNames, setAreaNames] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`https://pokeapi.co/api/v2/location/${locationId}`)
+      .then((response) => {
+        setAreaNames(response.data.areas);
+        console.log(areaNames[0].name);
+      })
+      .catch((error) => {
+        console.error('get("https://pokeapi.co/api/v2/region/")', error);
+      });
+  }, [locationId, setAreaNames]);
 
   useEffect(() => {
     axios
@@ -42,6 +56,22 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    if (regionURLIndex > 0 && regionURLIndex <= pokeRegion.length) {
+      axios
+        .get(`https://pokeapi.co/api/v2/region/${regionURLIndex}`)
+        .then((response) => {
+          setRegionLoc(response.data.locations);
+        })
+        .catch((error) => {
+          console.error(
+            ".get(`https://pokeapi.co/api/v2/region/${regionURLIndex}`)",
+            error
+          );
+        });
+    }
+  }, [regionURLIndex, pokeRegion.length, setRegionLoc]);
+
   function OptionsNext() {
     setPokebolaCount((prevIndex) =>
       Math.min(prevIndex + 1, possibleOptions.length - 1)
@@ -52,7 +82,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen overflow-hidden w-screen py-8 flex-col bg-gradient-to-b space-y-0 flex items-center justify-center from-blue-950 to-sky-600">
+    <div className="h-screen overflow-hidden w-screen flex-col bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
       <div className="size-3/4 flex items-center flex-col justify-center relative">
         <img src={logo} alt="Pokemon API logo" className="size-72" />
         <div className="mt-64 flex-col mr-28 bg-cover size-64 absolute flex justify-center items-center">
@@ -114,10 +144,12 @@ function App() {
         pokebolaCount={pokebolaCount}
       />
       <RegionDetails
+        areaNames={areaNames}
+        setLocationId={setLocationId}
         pokeRegion={pokeRegion}
-        possibleOptions={possibleOptions}
-        pokebolaCount={pokebolaCount}
         regionURLIndex={regionURLIndex}
+        regionLoc={regionLoc}
+        regionColor={regionColor}
       />
     </div>
   );
