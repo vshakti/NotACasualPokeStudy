@@ -32,16 +32,65 @@ function App() {
   const [pokebolaCount, setPokebolaCount] = useState(0);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
+  const [areaEncounters, setAreaEncounters] = useState([]);
+  const [pokeEncounter, setPokeEncounter] = useState([0]);
+  const [pokeEncounterSprite, setPokeEncounterSprite] = useState([0]);
+
+  useEffect(() => {
+    if (areaNames && areaNames.length > 0) {
+      areaNames.forEach((area) => {
+        axios
+          .get(`https://pokeapi.co/api/v2/location-area/${area.name}`)
+          .then((response) => {
+            setAreaEncounters(response.data.pokemon_encounters);
+          })
+          .catch((error) => {
+            console.error(
+              `get(https://pokeapi.co/api/v2/location-area/${area.name})`,
+              error
+            );
+          });
+      });
+    }
+  }, [areaNames]);
+
+  useEffect(() => {
+    if (areaEncounters && areaEncounters.length > 0) {
+      const fetchPokeEncounters = async () => {
+        const promises = areaEncounters.map((encounter) =>
+          axios.get(encounter.pokemon.url)
+        );
+
+        try {
+          const responses = await Promise.all(promises);
+          const regionEncounterNames = responses.map(
+            (response) => response.data.name
+          );
+          const regionEncounterSprites = responses.map(
+            (response) => response.data.sprites.front_default
+          );
+          setPokeEncounter(regionEncounterNames);
+          setPokeEncounterSprite(regionEncounterSprites);
+        } catch (error) {
+          console.error("Error fetching encounters:", error);
+        }
+      };
+
+      fetchPokeEncounters();
+    }
+  }, [areaEncounters]);
 
   useEffect(() => {
     axios
       .get(`https://pokeapi.co/api/v2/location/${locationId}`)
       .then((response) => {
         setAreaNames(response.data.areas);
-        console.log(areaNames[0].name);
       })
       .catch((error) => {
-        console.error('get("https://pokeapi.co/api/v2/region/")', error);
+        console.error(
+          `https://pokeapi.co/api/v2/location/${locationId}`,
+          error
+        );
       });
   }, [locationId, setAreaNames]);
 
@@ -144,6 +193,8 @@ function App() {
         pokebolaCount={pokebolaCount}
       />
       <RegionDetails
+        pokeEncounterSprite={pokeEncounterSprite}
+        pokeEncounter={pokeEncounter}
         areaNames={areaNames}
         setLocationId={setLocationId}
         pokeRegion={pokeRegion}

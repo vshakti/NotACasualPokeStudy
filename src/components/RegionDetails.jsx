@@ -10,30 +10,56 @@ export function RegionDetails({
   regionColor,
   setLocationId,
   areaNames,
+  pokeEncounter,
+  pokeEncounterSprite,
 }) {
   const [open, setOpen] = React.useState(false);
 
-  function MapAreas({ areasStyle }) {
-    return areaNames && areaNames.length ? (
-      areaNames.map((area) => (
+  function AreaSprites() {
+    return pokeEncounter &&
+      pokeEncounter.length &&
+      pokeEncounterSprite &&
+      pokeEncounterSprite.length ? (
+      pokeEncounter.map((encounter, index) => (
         <div
-          key={area}
-          className={`font-sans rounded-xl w-fit h-fit py-2 border bg-slate-700 flex justify-center px-2 items-center font-bold text-sm ${areasStyle}`}
+          key={encounter + index}
+          className="font-sans rounded-xl w-fit flex-col h-fit py-2 border bg-slate-700 flex justify-center px-2 items-center font-bold text-sm"
         >
-          {area.name.charAt(0).toUpperCase() +
-            area.name
-              .slice(1)
-              .replace("-", " ")
-              .replace("--", " ")
-              .replace("-", " ")
-              .replace("-", " ")
-              .replace("-", " ")
-              .replace("-", " ")}
+          <div>{encounter}</div>
+          <div className="text-4xl border text-white">
+            <img src={`${pokeEncounterSprite[index]}`} alt="" />
+          </div>
         </div>
       ))
     ) : (
       <h1>Loading...</h1>
     );
+  }
+
+  function MapAreas({ areasStyle }) {
+    return areaNames && areaNames.length ? (
+      areaNames
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((area, index) => (
+          <div
+            key={area + index}
+            className={`font-sans rounded-xl w-fit h-fit py-2 border bg-slate-700 flex justify-center px-2 items-center font-bold text-sm ${areasStyle}`}
+          >
+            <div>
+              {area.name.charAt(0).toUpperCase() +
+                area.name.slice(1).replace(/-+/g, " ")}
+            </div>
+          </div>
+        ))
+    ) : (
+      <h1>Loading...</h1>
+    );
+  }
+
+  function Reset() {
+    areaNames.length = 0;
+    pokeEncounterSprite.length = 0;
+    pokeEncounter.length = 0;
   }
 
   return pokeRegion && pokeRegion.length ? (
@@ -45,7 +71,7 @@ export function RegionDetails({
         >
           <div className="flex modal-action items-center justify-center text-4xl">
             <form method="dialog">
-              <button>X</button>
+              <button onClick={Reset}>X</button>
             </form>
           </div>
           <h1
@@ -94,7 +120,8 @@ export function RegionDetails({
             </div>
           </div>
           <div className="grid-flow-row-dense border w-3/5 h-96">
-            <MapAreas areasStyle="" />
+            <MapAreas />
+            <AreaSprites />
           </div>
         </div>
       </div>
