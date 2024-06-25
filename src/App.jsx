@@ -9,6 +9,7 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/16/solid";
+import { RegionDetails } from "./components/RegionDetails";
 
 function App() {
   const [pokeRegion, setPokeRegion] = useState([]);
@@ -60,14 +61,25 @@ function App() {
             alt="Pokebola"
             className="absolute animate-bounce"
           />
-
-          <button
-            id="btn_start"
-            className="size-36 mb-16 rounded-full mt-1 animate-bounce"
-            onClick={() =>
-              document.getElementById(`main_modal_${pokebolaCount}`).showModal()
-            }
-          />
+          <div
+            onClick={() => {
+              history.pushState(
+                null,
+                "pokedex",
+                `/${possibleOptions[pokebolaCount].toLowerCase()}`
+              );
+            }}
+          >
+            <button
+              id="btn_start"
+              className="size-36 mb-16 rounded-full mt-1 animate-bounce"
+              onClick={() =>
+                document
+                  .getElementById(`main_modal_${pokebolaCount}`)
+                  .showModal()
+              }
+            />
+          </div>
         </div>
       </div>
       <div className="py- flex items-center justify-evenly space-x-0">
@@ -98,6 +110,14 @@ function App() {
         setRegionURLIndex={setRegionURLIndex}
         regionLoc={regionLoc}
         setRegionLoc={setRegionLoc}
+        possibleOptions={possibleOptions}
+        pokebolaCount={pokebolaCount}
+      />
+      <RegionDetails
+        pokeRegion={pokeRegion}
+        possibleOptions={possibleOptions}
+        pokebolaCount={pokebolaCount}
+        regionURLIndex={regionURLIndex}
       />
     </div>
   );
