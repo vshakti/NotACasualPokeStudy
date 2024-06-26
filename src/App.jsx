@@ -9,7 +9,7 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/16/solid";
-import { RegionDetails } from "./components/RegionDetails";
+import RegionDetails from "./components/RegionDetails";
 
 function App() {
   const [pokeRegion, setPokeRegion] = useState([]);
@@ -141,13 +141,13 @@ function App() {
             className="absolute animate-bounce"
           />
           <div
-            onClick={() => {
-              history.pushState(
-                null,
-                "pokedex",
-                `/${possibleOptions[pokebolaCount].toLowerCase()}`
-              );
-            }}
+          // onClick={() => {
+          //   history.pushState(
+          //     null,
+          //     "pokedex",
+          //     `/${possibleOptions[pokebolaCount].toLowerCase()}`
+          //   );
+          // }}
           >
             <button
               id="btn_start"
@@ -180,7 +180,6 @@ function App() {
           <ChevronDoubleRightIcon className="text-white" />
         </button>
       </div>
-
       <RegionSelectorModal
         pokeRegion={pokeRegion}
         RGB={RGB}
@@ -202,6 +201,7 @@ function App() {
         regionLoc={regionLoc}
         regionColor={regionColor}
       />
+      ;
     </div>
   );
 }
