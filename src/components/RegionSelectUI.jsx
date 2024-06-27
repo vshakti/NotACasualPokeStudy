@@ -52,10 +52,23 @@ export function RegionSelectorModal({
     return pokeRegion && pokeRegion.length ? (
       pokeRegion.map((region, index) => (
         <div key={region + index} className="flex flex-col items-center">
-          <div
-            style={{ backgroundImage: `url(${RGB[index]})` }}
-            className="animate-pulse shadow-regionSelectorRegion min-h-28 max-h-28 max-w-28 min-w-28 w-full flex bg-center notched-corner"
-          />
+          <button
+            onClick={() => {
+              history.pushState(
+                null,
+                "pokedex",
+                `/${possibleOptions[pokebolaCount].toLowerCase()}/${
+                  pokeRegion[regionURLIndex - 1].name
+                }`
+              );
+              document.getElementById("region_datils").showModal();
+            }}
+          >
+            <div
+              style={{ backgroundImage: `url(${RGB[index]})` }}
+              className="shadow-regionSelectorRegion min-h-28 max-h-28 max-w-28 min-w-28 w-full flex bg-center notched-corner  transition ease-in-out hover:scale-150"
+            />
+          </button>
         </div>
       ))
     ) : (
@@ -63,9 +76,11 @@ export function RegionSelectorModal({
     );
   }
 
-  function RegionName({ pokeRegion, regionURLIndex }) {
+  function RegionName({ pokeRegion, regionURLIndex, regionNameStyle }) {
     return pokeRegion && pokeRegion.length ? (
-      <h1 className="font-sans flex justify-center items-center font-bold text-3xl">
+      <h1
+        className={`font-sans flex justify-center items-center font-bold text-3xl ${regionNameStyle}`}
+      >
         {pokeRegion[regionURLIndex - 1].name.toUpperCase()}
       </h1>
     ) : (
@@ -101,29 +116,19 @@ export function RegionSelectorModal({
           <DexSelector>
             <RegionSelector pokeRegion={pokeRegion} RGB={RGB} />
           </DexSelector>
-          <DexDisplay>
+          <DexDisplay displayStyle="h-8">
             <LocationsDisplay regionLoc={regionLoc} />
           </DexDisplay>
-          <div>
-            <button
-              className="transition ease-in-out hover:scale-110 duration-75 rounded-full shadow-[0_0px_10px_2px_black] border-white border-4 m-8 items-center justify-center flex px-4 bg-slate-900 text-white"
-              style={{ color: `${regionColor[regionURLIndex - 1]}` }}
-              onClick={() => {
-                history.pushState(
-                  null,
-                  "pokedex",
-                  `/${possibleOptions[pokebolaCount].toLowerCase()}/${
-                    pokeRegion[regionURLIndex - 1].name
-                  }`
-                );
-                document.getElementById("region_datils").showModal();
-              }}
-            >
-              <RegionName
-                pokeRegion={pokeRegion}
-                regionURLIndex={regionURLIndex}
-              />
-            </button>
+
+          <div
+            className="w-full py-0.5 border-r-0 border-l-0 shadow-[0_0px_10px_2px_black] border-white border-4 m-8 items-center justify-center flex px-4 bg-slate-900 text-white"
+            style={{ color: `${regionColor[regionURLIndex - 1]}` }}
+          >
+            <RegionName
+              pokeRegion={pokeRegion}
+              regionURLIndex={regionURLIndex}
+              regionNameStyle="animate-blink"
+            />
           </div>
         </div>
       </DexBG>

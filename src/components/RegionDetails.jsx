@@ -1,11 +1,9 @@
-import React from "react";
 import { LocationsDisplay } from "./LocationsDisplay";
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/16/solid";
-import * as Collapsible from "@radix-ui/react-collapsible";
+import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/react/16/solid";
+
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { DexBG } from "./PokedexComponents";
 
 function RegionDetails({
   pokeRegion,
@@ -17,8 +15,6 @@ function RegionDetails({
   pokeEncounter,
   pokeEncounterSprite,
 }) {
-  const [open, setOpen] = React.useState(false);
-
   function AreaSprites() {
     return pokeEncounter &&
       pokeEncounter.length &&
@@ -27,16 +23,17 @@ function RegionDetails({
       pokeEncounter.map((encounter, index) => (
         <div
           key={encounter + index}
-          className="font-sans rounded-xl w-fit flex-col h-fit border-slate-900 bg-slate-900 flex justify-center border-4 items-center font-bold text-sm"
+          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl  transition ease-in-out hover:scale-105 duration-75"
         >
-          <div className="size-18 bg-slate-500  bg-opacity-25 text-white">
+          <div className="bg-opacity-25 bg-slate-500 text-white w-full flex items-center justify-center">
             <img src={`${pokeEncounterSprite[index]}`} alt="" />
           </div>
           <div
-            className="p-1 font-medium"
+            className="p-1 font-medium bg-slate-900 w-full flex items-center justify-center rounded-t-sm"
             style={{ color: `${regionColor[regionURLIndex - 1]}` }}
           >
-            {encounter}
+            {encounter.toString().charAt(0).toUpperCase() +
+              encounter.toString().slice(1).replace(/-+/g, " ")}
           </div>
         </div>
       ))
@@ -50,17 +47,16 @@ function RegionDetails({
       areaNames.map((area, index) => (
         <div
           key={area + index}
-          className={`p-1 rounded-md w-fit h-fit bg-opacity-90 drop-shadow-1xl bg-slate-700 flex justify-center px-3 items-center font-bold text-sm ${areasStyle}`}
+          className={`p-1 w-fit h-fit bg-slate-800 rounded-xl text-sm drop-shadow-1xl justify-center items-center font-normal ${areasStyle}`}
           style={{ color: `${areaStyleTextColor}` }}
         >
-          <div className="text-2xl">
-            {area.name.charAt(0).toUpperCase() +
-              area.name.slice(1).replace(/-+/g, " ")}
-          </div>
+          {area.name.toUpperCase().replace(/-+/g, " ")}
         </div>
       ))
     ) : (
-      <h1>Loading...</h1>
+      <h1 className="font-semibold">
+        There is no notable area in this location!
+      </h1>
     );
   }
 
@@ -73,85 +69,87 @@ function RegionDetails({
 
   return pokeRegion && pokeRegion.length ? (
     <dialog className="modal" id="region_datils">
-      <div className="flex bg-white flex-col w-screen h-screen antialiased">
+      <DexBG
+        bodyGradient={regionColor[regionURLIndex - 1]}
+        bodyStyle="space-y-0 size-content overflow-hidden max-h-3/4 max-w-96 px-3"
+      >
+        <div style={{ color: `${regionColor[regionURLIndex - 1]}` }}>
+          <NavigationMenu.Root className="NavigationMenuRoot flex-col flex items-center justify-center">
+            <NavigationMenu.List className="NavigationMenuList justify-center flex min-w-96 max-w-full">
+              <NavigationMenu.Item className="flex border-slate-950 flex-row bg-slate-800 font-mono font-black items-center justify-between w-full border-b-2 h-12 px-4">
+                <form
+                  method="dialog"
+                  className="flex modal-action items-center justify-center text-base"
+                >
+                  <button onClick={Reset} id="region_close">
+                    <ArrowLeftIcon className="size-8 hover:scale-125" />
+                  </button>
+                </form>
+                <h1 id="region_datils" className="flex flex-col text-3xl">
+                  {pokeRegion[regionURLIndex - 1].name.charAt(0).toUpperCase() +
+                    pokeRegion[regionURLIndex - 1].name.slice(1)}{" "}
+                  locations
+                </h1>
+                <NavigationMenu.Trigger className="NavigationMenuTrigger flex items-center justify-center flex-row">
+                  <ChevronDownIcon
+                    className="CaretDown size-12 hover:scale-125"
+                    aria-hidden
+                  />
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Content className="NavigationMenuContent">
+                  <ScrollArea.Root>
+                    <ScrollArea.Viewport className="rounded-t-3xl">
+                      <div className="w-content flex flex-wrap gap-2 items-center justify-center h-24">
+                        <LocationsDisplay
+                          setLocationId={setLocationId}
+                          regionLoc={regionLoc}
+                          locationDisplayStyle="border-b-2 border-opacity-40 border-t-2 border-slate-950 mt-2 bg-slate-600 rounded-b-sm rounded-t-sm px-1 hover:scale-110"
+                          locationDysplayTextColor={
+                            regionColor[regionURLIndex - 1]
+                          }
+                        />
+                      </div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar orientation="horizontal">
+                      <ScrollArea.Thumb />
+                    </ScrollArea.Scrollbar>
+                    <ScrollArea.Scrollbar orientation="vertical">
+                      <ScrollArea.Thumb />
+                    </ScrollArea.Scrollbar>
+                    <ScrollArea.Corner />
+                  </ScrollArea.Root>
+                </NavigationMenu.Content>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Indicator className="NavigationMenuIndicator">
+                <div className="Arrow" />
+              </NavigationMenu.Indicator>
+            </NavigationMenu.List>
+
+            <div className="ViewportPosition w-content">
+              <NavigationMenu.Viewport className="NavigationMenuViewport" />
+            </div>
+          </NavigationMenu.Root>
+        </div>
+
         <div
-          style={{ color: `${regionColor[regionURLIndex - 1]}` }}
-          className="flex flex-row bg-slate-800 bg-opacity-85 font-mono font-black items-center justify-between px-4 w-content"
+          className="flex flex-col items-center w-full h-4/5 border-slate-800 bg-slate-700 bg-opacity-45 border-8 rounded-2xl justify-center space-y-0"
+          style={{ backgroundColor: `${regionColor[regionURLIndex - 1]}` }}
         >
-          <form
-            method="dialog"
-            className="flex modal-action items-center justify-center text-4xl"
-          >
-            <button onClick={Reset} id="region_close">
-              <ArrowLeftIcon className="size-8" />
-            </button>
-          </form>
-
-          <h1
-            id="region_datils"
-            className="flex flex-col items-end self-end justify-center text-6xl"
-          >
-            {pokeRegion[regionURLIndex - 1].name.charAt(0).toUpperCase() +
-              pokeRegion[regionURLIndex - 1].name.slice(1)}
-          </h1>
-        </div>
-        <div className="flex flex-row">
-          <div className="py-2 px-2 space-y-2 w-1/6 font-semibold border-r-2 h-full">
-            <h2>Generations</h2>
-
-            <div className="flex px-2 flex-col justify-around">
-              <Collapsible.Root
-                className="CollapsibleRoot"
-                open={open}
-                onOpenChange={setOpen}
-              >
-                <div className="flex flex-row items-center justify-between px-4">
-                  <div className="text-2xl">Locations</div>
-                  <Collapsible.Trigger asChild>
-                    <button className="IconButton size-4">
-                      {open ? (
-                        <ChevronUpIcon className="size-8" />
-                      ) : (
-                        <ChevronDownIcon className="size-8" />
-                      )}
-                    </button>
-                  </Collapsible.Trigger>
-                </div>
-
-                <Collapsible.Content>
-                  <div className="flex w-48 ml-8 mt-4 flex-col space-y-3 overflow-hidden">
-                    <LocationsDisplay
-                      setLocationId={setLocationId}
-                      regionLoc={regionLoc}
-                      locationDisplayStyle="text-slate-950 text-sm pl-2 border-b-2 border-t-2"
-                    />
-                  </div>
-                </Collapsible.Content>
-              </Collapsible.Root>
+          <div className="flex items-center justify-start flex-col max-h-3/5 min-h-fit w-full">
+            <h1 className="w-full items-center py-4 flex justify-center text-2xl h-1/5 text-slate-900 font-bold">
+              AREAS
+            </h1>
+            <div className="flex-wrap items-center flex justify-center gap-x-1 w-full h-4/5 px-1">
+              <MapAreas areaStyleTextColor={regionColor[regionURLIndex - 1]} />
             </div>
           </div>
-          <div className="flex flex-col h-content items-center w-5/6">
-            <div className="flex justify-center items-center flex-col p-4">
-              <h2 className="text-6xl flex items-center justify-center w-max p-2 border-b-2 border-t-2 border-slate-900">
-                NOTABLE AREAS
-              </h2>
-              <div className="flex flex-wrap p-2 space gap-8 justify-center items-center mt-4 size-content">
-                <MapAreas
-                  areaStyleTextColor={regionColor[regionURLIndex - 1]}
-                />
-              </div>
-            </div>
-            <div>
-              <h2 className="text-6xl flex items-center justify-center w-max p-2 border-b-2 border-t-2 border-slate-900">
-                POKEMON ENCOUNTERS
-              </h2>
-              <div className="flex flex-wrap p-2 space gap-8 mt-6 items-center justify-center">
-                <AreaSprites />
-              </div>
-            </div>
+
+          <div className="flex hide-scrollbar flex-wrap p-2 items-start justify-center gap-1 h-3-4 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
+            <AreaSprites />
           </div>
         </div>
-      </div>
+      </DexBG>
     </dialog>
   ) : (
     <h1>Loading...</h1>

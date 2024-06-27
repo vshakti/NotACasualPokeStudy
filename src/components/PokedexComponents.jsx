@@ -1,8 +1,11 @@
-function DexBG({ children, bodyStyle }) {
+function DexBG({ children, bodyStyle, bodyGradient }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex flex-col justify-center items-center">
       <div
         className={`flex-col space-y-6 rounded-3xl items-center overflow-hidden bg-gradient-to-r from-red-700 via-red-400 to-red-700 shadow-[0_0px_50px_5px_black] border-0.75 border-double border-slate-900 flex ${bodyStyle}`}
+        style={{
+          backgroundImage: `linear-gradient(to right, ${bodyGradient} , white, ${bodyGradient})`,
+        }}
       >
         {children}
       </div>
@@ -82,10 +85,10 @@ function DexLine({ children, bodyLineStyle }) {
     </div>
   );
 }
-function DexSelector({ children }) {
+function DexSelector({ children, selectorStyle }) {
   return (
     <div
-      className="flex border-8 shadow-regionSelector bottom-40 absolute bg-slate-900 border-white pr-10 pl-6 size-44 space-x-8 justify-start rounded-full pt-6 overflow-hidden"
+      className={`flex border-8 shadow-regionSelector bottom-40 absolute bg-slate-900 border-white pr-10 pl-6 size-44 space-x-8 justify-start rounded-full pt-6 overflow-hidden ${selectorStyle}`}
       id="region_selector"
     >
       {children}
@@ -93,12 +96,16 @@ function DexSelector({ children }) {
   );
 }
 
-function DexDisplay({ children, displayStyle }) {
+function DexDisplay({ children, displayStyle, displayAnimation }) {
   return (
     <div
-      className={`flex border-4 shadow-regionDisplay mt-16 items-center overflow-hidden justify-start border-r-0 border-l-0 bg-slate-900 border-white w-72 h-8 ${displayStyle}`}
+      className={`flex border-4 shadow-regionDisplay mt-16 items-center overflow-hidden justify-start border-r-0 border-l-0 bg-slate-900 border-white w-72 ${displayStyle}`}
     >
-      <div className="flex space-x-8 text-base animate-scroll">{children}</div>
+      <div
+        className={`flex space-x-8  animate-scroll text-base ${displayAnimation}`}
+      >
+        {children}
+      </div>
     </div>
   );
 }

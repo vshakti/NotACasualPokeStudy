@@ -7,6 +7,10 @@ export default {
         scroll: {
           "50%": { transform: "translateX(-40%)" },
         },
+        scroll2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
         blink: {
           "0%, 100%": { opacity: 1 },
           "50%": { opacity: 0 },
@@ -14,7 +18,8 @@ export default {
       },
       animation: {
         scroll: "scroll 120s linear infinite",
-        blink: "blink 1s infinite",
+        scroll2: "scroll 8s linear infinite",
+        blink: "blink 2s infinite",
       },
       boxShadow: {
         regionSelector:
