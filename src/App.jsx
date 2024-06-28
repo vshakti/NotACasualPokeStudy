@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
-import { RegionSelectorModal } from "./components/RegionSelectUI";
+import { RegionSelectorModal } from "./components/Regions/RegionSelectUI";
 import { regionBgs } from "./utils/importRegionsBG";
+import { type } from "./utils/importTypeIcons";
+import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
 import logo from "./assets/LogoBalls/logo.png";
 import { pokebola } from "./utils/importPokebolas";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/16/solid";
-import RegionDetails from "./components/RegionDetails";
+import RegionDetails from "./components/Regions/RegionDetails";
 
 function App() {
   const [pokeRegion, setPokeRegion] = useState([]);
@@ -28,13 +30,95 @@ function App() {
     "rgba(255, 153, 255, 0.8)",
     "rgba(255, 255, 255, 0.8)",
   ];
-  let possibleOptions = ["Regions", "Pokemons", "Elements"];
+  let possibleOptions = ["Regions", "Pokemons", "Types"];
   const [pokebolaCount, setPokebolaCount] = useState(0);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
   const [areaEncounters, setAreaEncounters] = useState([]);
   const [pokeEncounter, setPokeEncounter] = useState([0]);
   const [pokeEncounterSprite, setPokeEncounterSprite] = useState([0]);
+  const [pokemon, setPokemon] = useState({
+    id: null,
+    name: "",
+    weight: null,
+    abilities: [],
+    forms: [],
+    moves: [],
+    sprite: "",
+    spriteShiny: "",
+    stats: [],
+    types: [],
+  });
+  const [pokemonOrder, setPokemonOrder] = useState(0);
+
+  const pokemonQuantity = 1302;
+  const typeIcons = {
+    bug: type[0],
+    dark: type[1],
+    dragon: type[2],
+    electric: type[3],
+    fairy: type[4],
+    fighting: type[5],
+    fire: type[6],
+    flying: type[7],
+    ghost: type[8],
+    grass: type[9],
+    ground: type[10],
+    ice: type[11],
+    normal: type[12],
+    poison: type[13],
+    psychic: type[14],
+    rock: type[15],
+    steel: type[16],
+    water: type[17],
+  };
+  const typeColors = [
+    "bug",
+    "dark",
+    "dragon",
+    "electric",
+    "fairy",
+    "fighting",
+    "fire",
+    "flying",
+    "ghost",
+    "grass",
+    "ground",
+    "ice",
+    "normal",
+    "poison",
+    "psychic",
+    "rock",
+    "steel",
+    "water",
+  ];
+
+  useEffect(() => {
+    axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonOrder + 1}`)
+      .then((response) => {
+        const data = response.data;
+        setPokemon({
+          id: data.id,
+          name: data.name,
+          weight: data.weight,
+          abilities: data.abilities,
+          forms: data.forms,
+          moves: data.moves,
+          sprite: data.sprites.front_default,
+          spriteShiny: data.sprites.front_shiny,
+          stats: data.stats,
+          types: data.types,
+        });
+        console.log("poke: ", pokemon);
+      })
+      .catch((error) => {
+        console.error(
+          `https://pokeapi.co/api/v2/pokemon/${pokemonOrder + 1}`,
+          error
+        );
+      });
+  }, [pokemonOrder]);
 
   useEffect(() => {
     if (areaNames && areaNames.length > 0) {
@@ -72,7 +156,7 @@ function App() {
           setPokeEncounter(regionEncounterNames);
           setPokeEncounterSprite(regionEncounterSprites);
         } catch (error) {
-          console.error("Error fetching encounters:", error);
+          console.error(`$encounter.pokemon.url`, error);
         }
       };
 
@@ -81,17 +165,19 @@ function App() {
   }, [areaEncounters]);
 
   useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/location/${locationId}`)
-      .then((response) => {
-        setAreaNames(response.data.areas);
-      })
-      .catch((error) => {
-        console.error(
-          `https://pokeapi.co/api/v2/location/${locationId}`,
-          error
-        );
-      });
+    if (locationId && locationId.length > 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/location/${locationId}`)
+        .then((response) => {
+          setAreaNames(response.data.areas);
+        })
+        .catch((error) => {
+          console.error(
+            `https://pokeapi.co/api/v2/location/${locationId}`,
+            error
+          );
+        });
+    }
   }, [locationId, setAreaNames]);
 
   useEffect(() => {
@@ -200,6 +286,14 @@ function App() {
         regionURLIndex={regionURLIndex}
         regionLoc={regionLoc}
         regionColor={regionColor}
+      />
+      <PokemonSelectorModal
+        typeColors={typeColors}
+        typeIcons={typeIcons}
+        pokemonQuantity={pokemonQuantity}
+        pokemon={pokemon}
+        pokemonOrder={pokemonOrder}
+        setPokemonOrder={setPokemonOrder}
       />
       ;
     </div>

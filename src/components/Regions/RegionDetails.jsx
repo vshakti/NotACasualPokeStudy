@@ -3,7 +3,7 @@ import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/react/16/solid";
 
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { DexBG } from "./PokedexComponents";
+import { DexBG } from "../PokedexComponents";
 
 function RegionDetails({
   pokeRegion,

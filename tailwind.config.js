@@ -36,6 +36,62 @@ export default {
       borderWidth: {
         0.75: "0.75rem",
       },
+      colors: {
+        bug: {
+          DEFAULT: "#008000",
+        },
+        dark: {
+          DEFAULT: "#666666",
+        },
+        dragon: {
+          DEFAULT: "#00cccc",
+        },
+        electric: {
+          DEFAULT: "#ffff33",
+        },
+        fairy: {
+          DEFAULT: "#ff4dff",
+        },
+        fighting: {
+          DEFAULT: "#ff9933",
+        },
+        fire: {
+          DEFAULT: "#ff1a1a",
+        },
+        flying: {
+          DEFAULT: "#a6a6a6",
+        },
+        ghost: {
+          DEFAULT: "#9933ff",
+        },
+        grass: {
+          DEFAULT: "#4dff4d",
+        },
+        ground: {
+          DEFAULT: "#b38f00",
+        },
+        ice: {
+          DEFAULT: "#80ffff",
+        },
+        normal: {
+          DEFAULT: "#80002a",
+        },
+        poison: {
+          DEFAULT: "#400080",
+        },
+        psychic: {
+          DEFAULT: "#e600ac",
+        },
+        rock: {
+          DEFAULT: "#993300",
+        },
+        steel: {
+          DEFAULT: "#80ffbf",
+        },
+        water: {
+          DEFAULT: "#1a75ff",
+        },
+      },
     },
   },
   plugins: [],

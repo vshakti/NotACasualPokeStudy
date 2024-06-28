@@ -4,14 +4,14 @@ import {
   XMarkIcon,
 } from "@heroicons/react/16/solid";
 import { LocationsDisplay } from "./LocationsDisplay";
-import "../index.css";
+import "../../index.css";
 import {
   DexBG,
   DexHeader,
   DexLine,
   DexSelector,
   DexDisplay,
-} from "./PokedexComponents";
+} from "../PokedexComponents";
 
 export function RegionSelectorModal({
   pokeRegion,
@@ -95,7 +95,7 @@ export function RegionSelectorModal({
           <XMarkIcon className="size-8" />
         </DexHeader>
         <div className="justify-center items-center flex flex-col relative">
-          <DexLine>
+          <DexLine bodyLinePlacement="flex place-items-center justify-between pt-4 space-x-44 w-72 h-16 py-4">
             <button
               id="btn_region_back"
               disabled={regionURLIndex <= 1}
@@ -127,7 +127,7 @@ export function RegionSelectorModal({
             <RegionName
               pokeRegion={pokeRegion}
               regionURLIndex={regionURLIndex}
-              regionNameStyle="animate-blink"
+              // regionNameStyle="animate-blink"
             />
           </div>
         </div>
