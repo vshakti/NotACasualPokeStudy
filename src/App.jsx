@@ -12,6 +12,7 @@ import {
   ChevronDoubleRightIcon,
 } from "@heroicons/react/16/solid";
 import RegionDetails from "./components/Regions/RegionDetails";
+import PokemonDetails from "./components/Pokemons/PokemonDetails";
 
 function App() {
   const [pokeRegion, setPokeRegion] = useState([]);
@@ -72,26 +73,86 @@ function App() {
     steel: type[16],
     water: type[17],
   };
-  const typeColors = [
-    "bug",
-    "dark",
-    "dragon",
-    "electric",
-    "fairy",
-    "fighting",
-    "fire",
-    "flying",
-    "ghost",
-    "grass",
-    "ground",
-    "ice",
-    "normal",
-    "poison",
-    "psychic",
-    "rock",
-    "steel",
-    "water",
-  ];
+  const typeColorsText = {
+    bug: "text-bug",
+    dark: "text-dark",
+    dragon: "text-dragon",
+    electric: "text-electric",
+    fairy: "text-fairy",
+    fighting: "text-fighting",
+    fire: "text-fire",
+    flying: "text-flying",
+    ghost: "text-ghost",
+    grass: "text-grass",
+    ground: "text-ground",
+    ice: "text-ice",
+    normal: "text-normal",
+    poison: "text-poison",
+    psychic: "text-psychic",
+    rock: "text-rock",
+    steel: "text-steel",
+    water: "text-water",
+  };
+  const typeColorsBorder = {
+    bug: "border-bug",
+    dark: "border-dark",
+    dragon: "border-dragon",
+    electric: "border-electric",
+    fairy: "border-fairy",
+    fighting: "border-fighting",
+    fire: "border-fire",
+    flying: "border-flying",
+    ghost: "border-ghost",
+    grass: "border-grass",
+    ground: "border-ground",
+    ice: "border-ice",
+    normal: "border-normal",
+    poison: "border-poison",
+    psychic: "border-psychic",
+    rock: "border-rock",
+    steel: "border-steel",
+    water: "border-water",
+  };
+  const typeColorsBg = {
+    bug: "bg-bug",
+    dark: "bg-dark",
+    dragon: "bg-dragon",
+    electric: "bg-electric",
+    fairy: "bg-fairy",
+    fighting: "bg-fighting",
+    fire: "bg-fire",
+    flying: "bg-flying",
+    ghost: "bg-ghost",
+    grass: "bg-grass",
+    ground: "bg-ground",
+    ice: "bg-ice",
+    normal: "bg-normal",
+    poison: "bg-poison",
+    psychic: "bg-psychic",
+    rock: "bg-rock",
+    steel: "bg-steel",
+    water: "bg-water",
+  };
+  const typeColorsShadows = {
+    bug: "shadow-[0_0px_8px_5px_#008000]",
+    dark: "shadow-[0_0px_8px_5px_#666666]",
+    dragon: "shadow-[0_0px_8px_5px_#00cccc]",
+    electric: "shadow-[0_0px_8px_5px_#ffff33]",
+    fairy: "shadow-[0_0px_8px_5px_#ff4dff]",
+    fighting: "shadow-[0_0px_8px_5px_#ff9933]",
+    fire: "shadow-[0_0px_8px_5px_#ff1a1a]",
+    flying: "shadow-[0_0px_8px_5px_#a6a6a6]",
+    ghost: "shadow-[0_0px_8px_5px_#9933ff]",
+    grass: "shadow-[0_0px_8px_5px_#4dff4d]",
+    ground: "shadow-[0_0px_8px_5px_#b38f00]",
+    ice: "shadow-[0_0px_8px_5px_#80ffff]",
+    normal: "shadow-[0_0px_8px_5px_#80002a]",
+    poison: "shadow-[0_0px_8px_5px_#400080]",
+    psychic: "shadow-[0_0px_8px_5px_#e600ac]",
+    rock: "shadow-[0_0px_8px_5px_#993300]",
+    steel: "shadow-[0_0px_8px_5px_#80ffbf]",
+    water: "shadow-[0_0px_8px_5px_#1a75ff]",
+  };
 
   useEffect(() => {
     axios
@@ -110,7 +171,6 @@ function App() {
           stats: data.stats,
           types: data.types,
         });
-        console.log("poke: ", pokemon);
       })
       .catch((error) => {
         console.error(
@@ -278,6 +338,7 @@ function App() {
         pokebolaCount={pokebolaCount}
       />
       <RegionDetails
+        locationId={locationId}
         pokeEncounterSprite={pokeEncounterSprite}
         pokeEncounter={pokeEncounter}
         areaNames={areaNames}
@@ -288,14 +349,17 @@ function App() {
         regionColor={regionColor}
       />
       <PokemonSelectorModal
-        typeColors={typeColors}
+        typeColorsShadows={typeColorsShadows}
+        typeColorsBg={typeColorsBg}
+        typeColorsBorder={typeColorsBorder}
+        typeColorsText={typeColorsText}
         typeIcons={typeIcons}
         pokemonQuantity={pokemonQuantity}
         pokemon={pokemon}
         pokemonOrder={pokemonOrder}
         setPokemonOrder={setPokemonOrder}
       />
-      ;
+      <PokemonDetails typeColorsBg={typeColorsBg} pokemon={pokemon} />;
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
   DexSelector,
   DexDisplay,
 } from "../PokedexComponents";
+import { useEffect } from "react";
 
 export function RegionSelectorModal({
   pokeRegion,
@@ -35,7 +36,7 @@ export function RegionSelectorModal({
     setTimeout(function () {
       document.getElementById("btn_region_next").disabled = false;
     }, 250);
-    console.log(pokebolaCount, possibleOptions[pokebolaCount]);
+    console.log(regionURLIndex);
   }
 
   function RegionPrev() {
@@ -52,23 +53,10 @@ export function RegionSelectorModal({
     return pokeRegion && pokeRegion.length ? (
       pokeRegion.map((region, index) => (
         <div key={region + index} className="flex flex-col items-center">
-          <button
-            onClick={() => {
-              history.pushState(
-                null,
-                "pokedex",
-                `/${possibleOptions[pokebolaCount].toLowerCase()}/${
-                  pokeRegion[regionURLIndex - 1].name
-                }`
-              );
-              document.getElementById("region_datils").showModal();
-            }}
-          >
-            <div
-              style={{ backgroundImage: `url(${RGB[index]})` }}
-              className="shadow-regionSelectorRegion min-h-28 max-h-28 max-w-28 min-w-28 w-full flex bg-center notched-corner  transition ease-in-out hover:scale-150"
-            />
-          </button>
+          <div
+            style={{ backgroundImage: `url(${RGB[index]})` }}
+            className="animate-pulse shadow-regionSelectorRegion min-h-28 max-h-28 max-w-28 min-w-28 w-full flex bg-center notched-corner  transition ease-in-out hover:scale-150"
+          />
         </div>
       ))
     ) : (
@@ -90,8 +78,12 @@ export function RegionSelectorModal({
 
   return (
     <dialog className="modal" id="main_modal_0">
-      <DexBG>
-        <DexHeader>
+      <DexBG bodyStyle="bg-gradient-to-t from-red-600 via-red-400 to-trasnparent">
+        <DexHeader
+          closeStyle={`bg-red-600 shadow-[0_0px_8px_2px_red]`}
+          blinkStyle1={`bg-green-500 shadow-[0_0px_8px_5px_green]`}
+          blinkStyle2={`bg-yellow-300 shadow-[0_0px_8px_2px_yellow]`}
+        >
           <XMarkIcon className="size-8" />
         </DexHeader>
         <div className="justify-center items-center flex flex-col relative">
@@ -109,12 +101,20 @@ export function RegionSelectorModal({
               disabled={regionURLIndex >= pokeRegion.length}
               className="flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
               onClick={RegionNext}
+              onKeyDown={() => {}}
             >
               <ChevronDoubleRightIcon className="text-white" />
             </button>
           </DexLine>
-          <DexSelector>
-            <RegionSelector pokeRegion={pokeRegion} RGB={RGB} />
+          <DexSelector
+            possibleOptions={possibleOptions}
+            pokebolaCount={pokebolaCount}
+            pokeRegion={pokeRegion}
+            regionURLIndex={regionURLIndex}
+          >
+            <div className="flex flex-row space-x-8">
+              <RegionSelector pokeRegion={pokeRegion} RGB={RGB} />
+            </div>
           </DexSelector>
           <DexDisplay displayStyle="h-8">
             <LocationsDisplay regionLoc={regionLoc} />

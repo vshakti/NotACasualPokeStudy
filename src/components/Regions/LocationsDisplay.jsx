@@ -18,14 +18,7 @@ export function LocationsDisplay({
           className={`flex text-start justify-start text-cyan-200 min-w-fit max-w-fit text-base items-center  ${locationDisplayStyle}`}
           style={{ color: `${locationDysplayTextColor}` }}
         >
-          {location.name
-            .replace("-", " ")
-            .replace("--", " ")
-            .replace("-", " ")
-            .replace("-", " ")
-            .replace("-", " ")
-            .replace("-", " ")
-            .toUpperCase()}
+          {location.name.replace(/-+/g, " ").toUpperCase()}
         </button>
       ))
   ) : (

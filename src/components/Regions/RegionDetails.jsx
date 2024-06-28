@@ -11,6 +11,7 @@ function RegionDetails({
   regionLoc,
   regionColor,
   setLocationId,
+  locationId,
   areaNames,
   pokeEncounter,
   pokeEncounterSprite,
@@ -38,7 +39,7 @@ function RegionDetails({
         </div>
       ))
     ) : (
-      <h1>Loading...</h1>
+      <h1>{locationId ? "Loading..." : ""}</h1>
     );
   }
 
@@ -54,14 +55,13 @@ function RegionDetails({
         </div>
       ))
     ) : (
-      <h1 className="font-semibold">
-        There is no notable area in this location!
-      </h1>
+      <h1 className="font-semibold">{locationId ? "Loading..." : ""}</h1>
     );
   }
 
   function Reset() {
     areaNames.length = 0;
+    setLocationId(0);
     pokeEncounterSprite.length = 0;
     pokeEncounter.length = 0;
     history.replaceState(null, "remover region", "/");
@@ -98,7 +98,7 @@ function RegionDetails({
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="NavigationMenuContent">
                   <ScrollArea.Root>
-                    <ScrollArea.Viewport className="rounded-t-3xl">
+                    <ScrollArea.Viewport className="rounded-t-3xl h-64">
                       <div className="w-content flex flex-wrap gap-2 items-center justify-center h-24">
                         <LocationsDisplay
                           setLocationId={setLocationId}
@@ -136,9 +136,11 @@ function RegionDetails({
           className="flex flex-col items-center w-full h-4/5 border-slate-800 bg-slate-700 bg-opacity-45 border-8 rounded-2xl justify-center space-y-0"
           style={{ backgroundColor: `${regionColor[regionURLIndex - 1]}` }}
         >
-          <div className="flex items-center justify-start flex-col max-h-3/5 min-h-fit w-full">
-            <h1 className="w-full items-center py-4 flex justify-center text-2xl h-1/5 text-slate-900 font-bold">
-              AREAS
+          <div className="flex items-center px-0.5 pt-2 justify-start flex-col max-h-3/5 min-h-fit w-full">
+            <h1 className="w-full h-content flex items-center justify-center text-xl text-slate-900 font-bold">
+              {locationId
+                ? locationId.toUpperCase().replace(/-+/g, " ") + " AREAS"
+                : "Select a location"}
             </h1>
             <div className="flex-wrap items-center flex justify-center gap-x-1 w-full h-4/5 px-1">
               <MapAreas areaStyleTextColor={regionColor[regionURLIndex - 1]} />
