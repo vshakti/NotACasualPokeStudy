@@ -134,24 +134,24 @@ function App() {
     water: "bg-water",
   };
   const typeColorsShadows = {
-    bug: "shadow-[0_0px_8px_5px_#008000]",
-    dark: "shadow-[0_0px_8px_5px_#666666]",
-    dragon: "shadow-[0_0px_8px_5px_#00cccc]",
-    electric: "shadow-[0_0px_8px_5px_#ffff33]",
-    fairy: "shadow-[0_0px_8px_5px_#ff4dff]",
-    fighting: "shadow-[0_0px_8px_5px_#ff9933]",
-    fire: "shadow-[0_0px_8px_5px_#ff1a1a]",
-    flying: "shadow-[0_0px_8px_5px_#a6a6a6]",
-    ghost: "shadow-[0_0px_8px_5px_#9933ff]",
-    grass: "shadow-[0_0px_8px_5px_#4dff4d]",
-    ground: "shadow-[0_0px_8px_5px_#b38f00]",
-    ice: "shadow-[0_0px_8px_5px_#80ffff]",
-    normal: "shadow-[0_0px_8px_5px_#80002a]",
-    poison: "shadow-[0_0px_8px_5px_#400080]",
-    psychic: "shadow-[0_0px_8px_5px_#e600ac]",
-    rock: "shadow-[0_0px_8px_5px_#993300]",
-    steel: "shadow-[0_0px_8px_5px_#80ffbf]",
-    water: "shadow-[0_0px_8px_5px_#1a75ff]",
+    bug: "shadow-[0_0px_10px_2px_#008000]",
+    dark: "shadow-[0_0px_10px_2px_#666666]",
+    dragon: "shadow-[0_0px_10px_2px_#00cccc]",
+    electric: "shadow-[0_0px_10px_2px_#ffff33]",
+    fairy: "shadow-[0_0px_10px_2px_#ff4dff]",
+    fighting: "shadow-[0_0px_10px_2px_#ff9933]",
+    fire: "shadow-[0_0px_10px_2px_#ff1a1a]",
+    flying: "shadow-[0_0px_10px_2px_#a6a6a6]",
+    ghost: "shadow-[0_0px_10px_2px_#9933ff]",
+    grass: "shadow-[0_0px_10px_2px_#4dff4d]",
+    ground: "shadow-[0_0px_10px_2px_#b38f00]",
+    ice: "shadow-[0_0px_10px_2px_#80ffff]",
+    normal: "shadow-[0_0px_10px_2px_#80002a]",
+    poison: "shadow-[0_0px_10px_2px_#400080]",
+    psychic: "shadow-[0_0px_10px_2px_#e600ac]",
+    rock: "shadow-[0_0px_10px_2px_#993300]",
+    steel: "shadow-[0_0px_10px_2px_#80ffbf]",
+    water: "shadow-[0_0px_10px_2px_#1a75ff]",
   };
 
   useEffect(() => {
@@ -276,6 +276,91 @@ function App() {
     setPokebolaCount((prevIndex) => Math.max(prevIndex - 1, 0));
   }
 
+  function PokemonType() {
+    return pokemon.types && pokemon.types.length > 0 ? (
+      pokemon.types.map((type, index) => (
+        <div key={type.type + index}>
+          <img
+            src={`${typeIcons[type.type.name]}`}
+            alt=""
+            className="size-12"
+          />
+        </div>
+      ))
+    ) : (
+      <div>no type</div>
+    );
+  }
+
+  function PokemonStats() {
+    return pokemon.stats && pokemon.stats.length > 0 ? (
+      pokemon.stats.map((stats, index) => (
+        <div key={stats + index}>
+          <div className="flex flex-col h-16 w-full px-2 justify-center gap-y-0.5 items-start antialiased">
+            <div className="text-base text-white font-semibold pl-2">
+              {stats.stat.name.toUpperCase().replace(/-+/g, " ")}
+            </div>
+            <div
+              className={`w-full h-6 bg-gray-200 ${
+                typeColorsShadows[pokemon.types[0]?.type.name]
+              } rounded-full flex items-center justify-between pr-2 border space-x-1`}
+            >
+              <div
+                className={`h-full flex items-center rounded-full pl-2 ${
+                  typeColorsBg[pokemon.types[0]?.type.name]
+                } `}
+                style={{ width: `${stats.base_stat}%` }}
+              ></div>
+              <span className="text-slate-800 flex font-bold text-base">
+                {stats.base_stat}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div>no stats</div>
+    );
+  }
+
+  function PokemonAbilities() {
+    return pokemon.abilities && pokemon.abilities.length > 0 ? (
+      pokemon.abilities.map((abilityObj, index) => (
+        <div
+          key={abilityObj.ability.name + index}
+          className={`${
+            typeColorsShadows[pokemon.types[0]?.type.name]
+          } py-0.5 px-2 flex items-center w-max justify-center text-white rounded-full font-semibold`}
+        >
+          {abilityObj.ability.name.toUpperCase().replace(/-+/g, " ")}
+        </div>
+      ))
+    ) : (
+      <div>no abilities</div>
+    );
+  }
+
+  function PokemonMoves() {
+    return pokemon.moves && pokemon.moves.length > 0 ? (
+      pokemon.moves
+        .sort((a, b) => a.move.name.localeCompare(b.move.name))
+        .map((moveObj, index) => (
+          <div
+            key={moveObj + index}
+            className={`${
+              typeColorsShadows[pokemon.types[0]?.type.name]
+            } py-1.5 px-2 flex items-center w-max h-max justify-center rounded-2xl text-white font-semibold`}
+          >
+            {moveObj.move.name.toUpperCase().replace(/-+/g, " ")}
+          </div>
+        ))
+    ) : (
+      <div>no moves</div>
+    );
+  }
+
+  console.log(pokemon.moves);
+
   return (
     <div className="h-screen overflow-hidden w-screen flex-col bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
       <div className="size-3/4 flex items-center flex-col justify-center relative">
@@ -359,7 +444,19 @@ function App() {
         pokemonOrder={pokemonOrder}
         setPokemonOrder={setPokemonOrder}
       />
-      <PokemonDetails typeColorsBg={typeColorsBg} pokemon={pokemon} />;
+      <PokemonDetails
+        PokemonMoves={PokemonMoves}
+        PokemonAbilities={PokemonAbilities}
+        PokemonStats={PokemonStats}
+        PokemonType={PokemonType}
+        typeColorsBorder={typeColorsBorder}
+        typeIcons={typeIcons}
+        typeColorsShadows={typeColorsShadows}
+        typeColorsBg={typeColorsBg}
+        pokemon={pokemon}
+        typeColorsText={typeColorsText}
+      />
+      ;
     </div>
   );
 }

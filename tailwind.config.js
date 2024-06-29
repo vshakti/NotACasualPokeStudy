@@ -27,11 +27,12 @@ export default {
         regionSelectorRegion:
           "0 0px 2rem 0.5rem rgba(255, 255, 255, 0.6) inset",
         regionSelectorLine:
-          "0 0px 1rem 0.25rem rgba(255, 255, 255, 0.2) inset, 0 0rem 1rem 0.5rem rgba(0, 0, 0, 0.2)",
+          "0 0px 1rem 0.25rem rgba(255, 255, 255, 0.1) inset, 0 0rem 1rem 0.5rem rgba(0, 0, 0, 0.4)",
         regionSelectorClose:
           "0rem 0px 3rem 0.5rem rgba(0, 0, 0, 0.3) inset, 0 0rem 1rem 0.5rem rgba(0, 0, 0, 0.3)",
         regionDisplay:
           "0 0px 1rem 0.125rem rgba(19, 250, 227, .5) inset, 0 0rem 1rem 0.5rem rgba(0, 0, 0, 0.3)",
+        pokemonDetailsSprite: "0 0px 2rem 0.5rem rgba(0, 0, 0, 0.6) inset",
       },
       borderWidth: {
         0.75: "0.75rem",

@@ -78,7 +78,7 @@ export function RegionSelectorModal({
 
   return (
     <dialog className="modal" id="main_modal_0">
-      <DexBG bodyStyle="bg-gradient-to-t from-red-600 via-red-400 to-trasnparent">
+      <DexBG bodyStyle="bg-gradient-to-t from-red-600 via-red-400 to-trasnparent space-y-6">
         <DexHeader
           closeStyle={`bg-red-600 shadow-[0_0px_8px_2px_red]`}
           blinkStyle1={`bg-green-500 shadow-[0_0px_8px_5px_green]`}

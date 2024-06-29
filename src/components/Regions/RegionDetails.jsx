@@ -71,7 +71,7 @@ function RegionDetails({
     <dialog className="modal" id="region_datils">
       <DexBG
         bodyGradient={regionColor[regionURLIndex - 1]}
-        bodyStyle="space-y-0 size-content overflow-hidden max-h-3/4 max-w-96 px-3"
+        bodyStyle="space-y-0 size-content overflow-hidden max-h-3/4 max-w-96 px-3 space-y-4"
       >
         <div style={{ color: `${regionColor[regionURLIndex - 1]}` }}>
           <NavigationMenu.Root className="NavigationMenuRoot flex-col flex items-center justify-center">
@@ -103,7 +103,7 @@ function RegionDetails({
                         <LocationsDisplay
                           setLocationId={setLocationId}
                           regionLoc={regionLoc}
-                          locationDisplayStyle="border-b-2 border-opacity-40 border-t-2 border-slate-950 mt-2 bg-slate-600 rounded-b-sm rounded-t-sm px-1 hover:scale-110"
+                          locationDisplayStyle="border-b-2 border-opacity-40 drop-shadow-2xl border-t-2 border-slate-950 mt-2 bg-slate-600 rounded-b-sm rounded-t-sm px-1 hover:scale-110"
                           locationDysplayTextColor={
                             regionColor[regionURLIndex - 1]
                           }
@@ -133,7 +133,7 @@ function RegionDetails({
         </div>
 
         <div
-          className="flex flex-col items-center w-full h-4/5 border-slate-800 bg-slate-700 bg-opacity-45 border-8 rounded-2xl justify-center space-y-0"
+          className="flex flex-col gap-y-2 items-center w-full h-4/5 border-slate-800 bg-slate-700 bg-opacity-45 border-8 rounded-2xl justify-center space-y-0"
           style={{ backgroundColor: `${regionColor[regionURLIndex - 1]}` }}
         >
           <div className="flex items-center px-0.5 pt-2 justify-start flex-col max-h-3/5 min-h-fit w-full">
@@ -147,7 +147,7 @@ function RegionDetails({
             </div>
           </div>
 
-          <div className="flex hide-scrollbar flex-wrap p-2 items-start justify-center gap-1 h-3-4 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
+          <div className="flex hide-scrollbar flex-wrap p-2 items-start justify-center gap-1 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
             <AreaSprites />
           </div>
         </div>

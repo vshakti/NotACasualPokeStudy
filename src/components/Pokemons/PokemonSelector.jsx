@@ -12,9 +12,7 @@ export function PokemonSelectorModal({
   setPokemonOrder,
   pokemonOrder,
   pokemon,
-  typeIcons,
   typeColorsText,
-  typeColorsBorder,
   typeColorsBg,
   typeColorsShadows,
 }) {
@@ -24,44 +22,6 @@ export function PokemonSelectorModal({
 
   function PokemonPrev() {
     setPokemonOrder((prevIndex) => Math.max(prevIndex - 1, 0));
-  }
-
-  function PokemonType() {
-    return pokemon.types && pokemon.types.length > 0 ? (
-      pokemon.types.map((type, index) => (
-        <div key={type.type + index}>
-          <img
-            src={`${typeIcons[type.type.name]}`}
-            alt=""
-            className="border size-16"
-          />
-        </div>
-      ))
-    ) : (
-      <div>no type</div>
-    );
-  }
-
-  function PokemonStats() {
-    return pokemon.stats && pokemon.stats.length > 0 ? (
-      pokemon.stats.map((stats, index) => (
-        <div key={stats + index}>
-          <div className="flex flex-col h-16 w-full">
-            <div className="text-sm">{stats.stat.name}</div>
-            <div className="w-3/4 h-8 bg-blue-400 rounded-full flex items-center">
-              <div
-                className="h-full flex items-center bg-blue-800 rounded-full"
-                style={{ width: `${stats.base_stat}%` }}
-              >
-                {stats.base_stat}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div>no stats</div>
-    );
   }
 
   let blinkType;
@@ -115,7 +75,7 @@ export function PokemonSelectorModal({
               </button>
             </div>
           </DexLine>
-          <div className="size-content border-8 bg-gray-800 absolute rounded-full p-3 -top-24 flex items-center justify-center">
+          <div className="size-content border-8 bg-gray-800 absolute rounded-full shadow-pokemonDetailsSprite -top-20 flex items-center justify-center">
             <button
               onClick={() => {
                 document.getElementById("pokemon_details").showModal();
@@ -129,7 +89,7 @@ export function PokemonSelectorModal({
             </button>
           </div>
 
-          <div className="w-full gap-2 font-semibold text-4xl py-0.5 border-r-0 border-l-0 shadow-[0_0px_10px_2px_black] border-white border-4 m-8 items-center justify-center flex px-4 bg-slate-900 text-white">
+          <div className="w-full gap-2 font-semibold text-4xl py-0.5 border-r-0 border-l-0 shadow-regionSelectorLine border-white border-4 m-8 items-center justify-center flex px-4 bg-slate-900 text-white">
             <h1 className={`${typeColorsText[pokemon.types[0]?.type.name]}`}>
               {pokemon.id}.
             </h1>
