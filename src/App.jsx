@@ -7,7 +7,7 @@ import { type } from "./utils/importTypeIcons";
 import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
 import { PokemonSearchModal } from "./components/Pokemons/PokemonSearch";
 import logo from "./assets/LogoBalls/logo.png";
-import { pokebola } from "./utils/importPokebolas";
+import { dexes } from "./utils/importPokebolas";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -32,8 +32,8 @@ function App() {
     "rgba(255, 153, 255, 0.8)",
     "rgba(255, 255, 255, 0.8)",
   ];
-  let possibleOptions = ["Regions", "Pokemons", "Types"];
-  const [pokebolaCount, setPokebolaCount] = useState(0);
+  let possibleOptions = ["Regiondex", "Pokedex", "Typedex"];
+  const [activeIndex, setActiveIndex] = useState(1);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
   const [areaEncounters, setAreaEncounters] = useState([]);
@@ -337,15 +337,6 @@ function App() {
     }
   }, [regionURLIndex, pokeRegion.length, setRegionLoc]);
 
-  function OptionsNext() {
-    setPokebolaCount((prevIndex) =>
-      Math.min(prevIndex + 1, possibleOptions.length - 1)
-    );
-  }
-  function OptionsBack() {
-    setPokebolaCount((prevIndex) => Math.max(prevIndex - 1, 0));
-  }
-
   function PokemonType() {
     return pokemon.types && pokemon.types.length > 0 ? (
       pokemon.types.map((type, index) => (
@@ -430,57 +421,64 @@ function App() {
   }
 
   return (
-    <div className="h-screen overflow-hidden w-screen flex-col bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
-      <div className="size-3/4 flex items-center flex-col justify-center relative">
-        <img src={logo} alt="Pokemon API logo" className="size-72" />
-        <div className="mt-64 flex-col mr-28 bg-cover size-64 absolute flex justify-center items-center">
-          <img
-            src={pokebola[pokebolaCount]}
-            alt="Pokebola"
-            className="absolute animate-bounce"
-          />
-          <div
-          // onClick={() => {
-          //   history.pushState(
-          //     null,
-          //     "pokedex",
-          //     `/${possibleOptions[pokebolaCount].toLowerCase()}`
-          //   );
-          // }}
-          >
-            <button
-              id="btn_start"
-              className="size-36 mb-16 rounded-full mt-1 animate-bounce"
-              onClick={() => {
-                document
-                  .getElementById(`main_modal_${pokebolaCount}`)
-                  .showModal();
-                setPokemonOrder(0);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="py- flex items-center justify-evenly space-x-0">
+    <div className="h-screen w-screen flex-col bg-gradient-to-b gap-y-12 flex items-center justify-center from-blue-950 to-sky-600">
+      <div className="flex items-center space-x-0">
         <button
-          id="options_next"
+          id="options_back"
+          disabled={activeIndex <= 0}
           className="bg-slate-900 rounded-full border-white border-2 shadow-regionDisplay flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
-          onClick={OptionsBack}
+          onClick={() => {
+            setActiveIndex((prevIndex) =>
+              Math.min((prevIndex ?? -1) - 1, dexes.length - 1)
+            );
+          }}
         >
           <ChevronDoubleLeftIcon className="text-white" />
         </button>
         <h1 className="text-4xl flex items-center justify-center px-4 py-2 font-bold text-white ">
-          {possibleOptions[pokebolaCount].toUpperCase()}
+          {possibleOptions[activeIndex]}
         </h1>
         <button
-          id="options_back"
+          id="options_next"
+          disabled={activeIndex >= 2}
           className="bg-slate-900 rounded-full border-white border-2 shadow-regionDisplay flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
-          onClick={OptionsNext}
+          onClick={() => {
+            setActiveIndex((prevIndex) =>
+              Math.min((prevIndex ?? -1) + 1, dexes.length)
+            );
+          }}
         >
           <ChevronDoubleRightIcon className="text-white" />
         </button>
       </div>
+      <div className="flex flex-row origin-top-left" id="dex_selector">
+        {dexes.map((selectors, index) => (
+          <div key={index}>
+            <button
+              id="btn_start"
+              disabled={index !== activeIndex}
+              onClick={() => {
+                document
+                  .getElementById(`main_modal_${activeIndex}`)
+                  .showModal();
+                setPokemonOrder(0);
+              }}
+            >
+              <img
+                src={selectors}
+                alt="dexes"
+                className={`size-32 transition-transform duration-500 drop-shadow-2xl shadow-black ${
+                  index === activeIndex
+                    ? "translate-y-12 scale-125"
+                    : "-translate-y-10  opacity-80"
+                }`}
+              />
+            </button>
+          </div>
+        ))}
+      </div>
       <RegionSelectorModal
+        activeIndex={activeIndex}
         pokeRegion={pokeRegion}
         RGB={RGB}
         regionColor={regionColor}
@@ -489,7 +487,6 @@ function App() {
         regionLoc={regionLoc}
         setRegionLoc={setRegionLoc}
         possibleOptions={possibleOptions}
-        pokebolaCount={pokebolaCount}
       />
       <RegionDetails
         setPokeEncounter={setPokeEncounter}

@@ -1,5 +1,5 @@
-import pokebola1 from "../assets/LogoBalls/pokebola1.png";
-import pokebola2 from "../assets/LogoBalls/pokebola2.png";
-import pokebola3 from "../assets/LogoBalls/pokebola3.png";
+import regionDex from "../assets/LogoBalls/regionDex.png";
+import pokeDex from "../assets/LogoBalls/pokeDex.png";
+import typeDex from "../assets/LogoBalls/typeDex.png";
 
-export const pokebola = [pokebola1, pokebola2, pokebola3];
+export const dexes = [regionDex, pokeDex, typeDex];

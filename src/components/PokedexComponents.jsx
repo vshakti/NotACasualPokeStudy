@@ -83,7 +83,7 @@ function DexLine({ children, bodyLineStyle, bodyLinePlacement }) {
 }
 function DexSelector({
   possibleOptions,
-  pokebolaCount,
+  activeIndex,
   pokeRegion,
   regionURLIndex,
   children,
@@ -95,7 +95,7 @@ function DexSelector({
         history.pushState(
           null,
           "pokedex",
-          `/${possibleOptions[pokebolaCount].toLowerCase()}/${
+          `/${possibleOptions[activeIndex].toLowerCase()}/${
             pokeRegion[regionURLIndex - 1].name
           }`
         );

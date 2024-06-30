@@ -20,7 +20,7 @@ export function RegionSelectorModal({
   regionURLIndex,
   setRegionURLIndex,
   regionLoc,
-  pokebolaCount,
+  activeIndex,
   possibleOptions,
 }) {
   let scrollRegions = document.getElementById("region_selector");
@@ -106,7 +106,7 @@ export function RegionSelectorModal({
           </DexLine>
           <DexSelector
             possibleOptions={possibleOptions}
-            pokebolaCount={pokebolaCount}
+            activeIndex={activeIndex}
             pokeRegion={pokeRegion}
             regionURLIndex={regionURLIndex}
           >
