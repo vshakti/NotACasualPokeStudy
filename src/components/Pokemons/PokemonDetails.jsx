@@ -1,7 +1,7 @@
 import "../../index.css";
 import { DexBG, DexLine } from "../PokedexComponents";
 import { useState } from "react";
-import { XMarkIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 export default function PokemonDetails({
   typeColorsBg,
@@ -45,7 +45,7 @@ export default function PokemonDetails({
                 setCurrentSprite("NORMAL");
               }}
             >
-              <XMarkIcon />
+              <XMarkIcon className="hover:scale-150 transition easy-in-out" />
             </button>
           </form>
         </div>
@@ -63,7 +63,7 @@ export default function PokemonDetails({
               onClick={() => handleView("STATS")}
               className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
                 typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 cursor-pointer`}
+              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
             >
               STATS
             </div>
@@ -71,7 +71,7 @@ export default function PokemonDetails({
               onClick={() => handleView("ABILITIES")}
               className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
                 typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 cursor-pointer`}
+              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
             >
               ABILITIES
             </div>
@@ -79,7 +79,7 @@ export default function PokemonDetails({
               onClick={() => handleView("MOVES")}
               className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
                 typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 cursor-pointer`}
+              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
             >
               MOVES
             </div>
@@ -87,10 +87,10 @@ export default function PokemonDetails({
         </div>
         <DexLine
           bodyLineStyle="border-b-0 h-full mt-4 bg-slate-800"
-          bodyLinePlacement="h-content place-self-start w-96 pt-1"
+          bodyLinePlacement="place-self-start w-96 pt-1"
         >
           {currentView === "STATS" && (
-            <div className="h-full w-full px-6 flex flex-col py-1">
+            <div className="min-h-64 w-full px-6 flex flex-col py-1 overflow-y-scroll hide-scrollbar">
               <PokemonStats />
             </div>
           )}
@@ -100,7 +100,7 @@ export default function PokemonDetails({
             </div>
           )}
           {currentView === "MOVES" && (
-            <div className="min-h-16 max-h-96 w-full flex py-4 items-center px-1.5 flex-wrap gap-5 pb-4 justify-center hide-scrollbar overflow-y-scroll">
+            <div className="min-h-32 max-h-96 w-full flex py-4 items-center px-1.5 flex-wrap gap-5 pb-4 justify-center hide-scrollbar overflow-y-scroll">
               <PokemonMoves />
             </div>
           )}
@@ -110,15 +110,27 @@ export default function PokemonDetails({
             typeColorsBg[pokemon.types[0]?.type.name]
           } size-28 flex-col absolute border-8 bg-opacity-70 shadow-regionSelectorLine -top-2 -left-2 rounded-lg flex items-center justify-center`}
         >
-          <div className="flex flex-row absolute w-full justify-end px-2 top-20">
-            <div
-              onClick={() =>
-                currentSprite === "NORMAL"
-                  ? setCurrentSprite("SHINY")
-                  : setCurrentSprite("NORMAL")
-              }
-              className={`drop-shadow-2xl shadow-[0_0px_10px_2px_white] bg-slate-200 opacity-90 rounded-full hover:scale-125 size-3 cursor-pointer`}
-            />
+          <div className="flex flex-row absolute w-full justify-end px-1 top-20">
+            {currentSprite === "NORMAL" && (
+              <EyeIcon
+                className={`drop-shadow-2xl text-slate-200 opacity-80 rounded-full hover:scale-125 transition easy-in-out size-4 cursor-pointer`}
+                onClick={() =>
+                  currentSprite === "NORMAL"
+                    ? setCurrentSprite("SHINY")
+                    : setCurrentSprite("NORMAL")
+                }
+              />
+            )}
+            {currentSprite === "SHINY" && (
+              <EyeSlashIcon
+                className={`drop-shadow-2xl text-slate-200 opacity-80 rounded-full hover:scale-125 transition easy-in-out size-4 cursor-pointer`}
+                onClick={() =>
+                  currentSprite === "NORMAL"
+                    ? setCurrentSprite("SHINY")
+                    : setCurrentSprite("NORMAL")
+                }
+              />
+            )}
           </div>
           {currentSprite === "NORMAL" && (
             <img

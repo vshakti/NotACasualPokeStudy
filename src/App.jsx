@@ -5,6 +5,7 @@ import { RegionSelectorModal } from "./components/Regions/RegionSelectUI";
 import { regionBgs } from "./utils/importRegionsBG";
 import { type } from "./utils/importTypeIcons";
 import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
+import { PokemonSearchModal } from "./components/Pokemons/PokemonSearch";
 import logo from "./assets/LogoBalls/logo.png";
 import { pokebola } from "./utils/importPokebolas";
 import {
@@ -36,8 +37,8 @@ function App() {
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
   const [areaEncounters, setAreaEncounters] = useState([]);
-  const [pokeEncounter, setPokeEncounter] = useState([0]);
-  const [pokeEncounterSprite, setPokeEncounterSprite] = useState([0]);
+  const [pokeEncounter, setPokeEncounter] = useState([]);
+  const [pokeEncounterSprite, setPokeEncounterSprite] = useState([]);
   const [pokemon, setPokemon] = useState({
     id: null,
     name: "",
@@ -51,8 +52,22 @@ function App() {
     types: [],
   });
   const [pokemonOrder, setPokemonOrder] = useState(0);
-
-  const pokemonQuantity = 1302;
+  const [pokemonName, setPokemonName] = useState({
+    id: null,
+    name: "",
+    weight: null,
+    abilities: [],
+    forms: [],
+    moves: [],
+    sprite: "",
+    spriteShiny: "",
+    stats: [],
+    types: [],
+  });
+  const [pokemonTotal, setPokemonTotal] = useState([]);
+  const [possiblePokemon, setPossiblePokemon] = useState([]);
+  const [searchString, setSearchString] = useState("");
+  const [validSearch, setValidSearch] = useState(0);
   const typeIcons = {
     bug: type[0],
     dark: type[1],
@@ -156,6 +171,17 @@ function App() {
 
   useEffect(() => {
     axios
+      .get("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1025")
+      .then((response) => {
+        setPokemonTotal(response.data.results);
+      })
+      .catch((error) => {
+        console.error("https://pokeapi.co/api/v2/pokemon/?&limit=1302", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
       .get(`https://pokeapi.co/api/v2/pokemon/${pokemonOrder + 1}`)
       .then((response) => {
         const data = response.data;
@@ -164,7 +190,7 @@ function App() {
           name: data.name,
           weight: data.weight,
           abilities: data.abilities,
-          forms: data.forms,
+          forms: data.order,
           moves: data.moves,
           sprite: data.sprites.front_default,
           spriteShiny: data.sprites.front_shiny,
@@ -179,6 +205,50 @@ function App() {
         );
       });
   }, [pokemonOrder]);
+
+  useEffect(() => {
+    if (pokemonName && pokemonName.length > 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+        .then((response) => {
+          const data = response.data;
+          setPokemon({
+            id: data.id,
+            name: data.name,
+            weight: data.weight,
+            abilities: data.abilities,
+            forms: data.forms,
+            moves: data.moves,
+            sprite: data.sprites.front_default,
+            spriteShiny: data.sprites.front_shiny,
+            stats: data.stats,
+            types: data.types,
+          });
+        })
+        .catch((error) => {
+          console.error(
+            `https://pokeapi.co/api/v2/pokemon/${pokemonName}`,
+            error
+          );
+        });
+    }
+  }, [pokemonName]);
+
+  useEffect(() => {
+    if (pokemonTotal.length > 0) {
+      const newpossiblePokemon = pokemonTotal.map((pokemon) => pokemon.name);
+      setPossiblePokemon(newpossiblePokemon);
+    }
+  }, [pokemonTotal]);
+
+  function CheckSearch() {
+    if (possiblePokemon.includes(searchString.toLowerCase())) {
+      setPokemonName(searchString.toLowerCase());
+      setValidSearch(1);
+    } else {
+      setValidSearch(2);
+    }
+  }
 
   useEffect(() => {
     if (areaNames && areaNames.length > 0) {
@@ -296,7 +366,7 @@ function App() {
     return pokemon.stats && pokemon.stats.length > 0 ? (
       pokemon.stats.map((stats, index) => (
         <div key={stats + index}>
-          <div className="flex flex-col h-16 w-full px-2 justify-center gap-y-0.5 items-start antialiased">
+          <div className="flex flex-col h-16 w-full px-2 justify-center gap-y-0.5 items-start antialiased hover:scale-110 transition easy-in-out">
             <div className="text-base text-white font-semibold pl-2">
               {stats.stat.name.toUpperCase().replace(/-+/g, " ")}
             </div>
@@ -309,7 +379,7 @@ function App() {
                 className={`h-full flex items-center rounded-full pl-2 ${
                   typeColorsBg[pokemon.types[0]?.type.name]
                 } `}
-                style={{ width: `${stats.base_stat}%` }}
+                style={{ width: `${stats.base_stat * 0.5}%` }}
               ></div>
               <span className="text-slate-800 flex font-bold text-base">
                 {stats.base_stat}
@@ -359,8 +429,6 @@ function App() {
     );
   }
 
-  console.log(pokemon.moves);
-
   return (
     <div className="h-screen overflow-hidden w-screen flex-col bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
       <div className="size-3/4 flex items-center flex-col justify-center relative">
@@ -383,11 +451,12 @@ function App() {
             <button
               id="btn_start"
               className="size-36 mb-16 rounded-full mt-1 animate-bounce"
-              onClick={() =>
+              onClick={() => {
                 document
                   .getElementById(`main_modal_${pokebolaCount}`)
-                  .showModal()
-              }
+                  .showModal();
+                setPokemonOrder(0);
+              }}
             />
           </div>
         </div>
@@ -423,6 +492,9 @@ function App() {
         pokebolaCount={pokebolaCount}
       />
       <RegionDetails
+        setPokeEncounter={setPokeEncounter}
+        pokemonName={pokemonName}
+        setPokemonName={setPokemonName}
         locationId={locationId}
         pokeEncounterSprite={pokeEncounterSprite}
         pokeEncounter={pokeEncounter}
@@ -434,17 +506,21 @@ function App() {
         regionColor={regionColor}
       />
       <PokemonSelectorModal
+        pokemonTotal={pokemonTotal}
         typeColorsShadows={typeColorsShadows}
         typeColorsBg={typeColorsBg}
         typeColorsBorder={typeColorsBorder}
         typeColorsText={typeColorsText}
         typeIcons={typeIcons}
-        pokemonQuantity={pokemonQuantity}
         pokemon={pokemon}
         pokemonOrder={pokemonOrder}
         setPokemonOrder={setPokemonOrder}
       />
       <PokemonDetails
+        setSearchString={setSearchString}
+        searchString={searchString}
+        setPokeEncounter={setPokeEncounter}
+        setPokemonOrder={setPokemonOrder}
         PokemonMoves={PokemonMoves}
         PokemonAbilities={PokemonAbilities}
         PokemonStats={PokemonStats}
@@ -455,6 +531,15 @@ function App() {
         typeColorsBg={typeColorsBg}
         pokemon={pokemon}
         typeColorsText={typeColorsText}
+      />
+      <PokemonSearchModal
+        pokemon={pokemon}
+        setPokemonOrder={setPokemonOrder}
+        setValidSearch={setValidSearch}
+        validSearch={validSearch}
+        CheckSearch={CheckSearch}
+        searchString={searchString}
+        setSearchString={setSearchString}
       />
       ;
     </div>

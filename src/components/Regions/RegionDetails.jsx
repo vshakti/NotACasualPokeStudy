@@ -1,6 +1,5 @@
 import { LocationsDisplay } from "./LocationsDisplay";
 import { ChevronDownIcon, ArrowLeftIcon } from "@heroicons/react/16/solid";
-
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { DexBG } from "../PokedexComponents";
@@ -15,6 +14,8 @@ function RegionDetails({
   areaNames,
   pokeEncounter,
   pokeEncounterSprite,
+  setPokemonName,
+  setPokeEncounter,
 }) {
   function AreaSprites() {
     return pokeEncounter &&
@@ -24,10 +25,17 @@ function RegionDetails({
       pokeEncounter.map((encounter, index) => (
         <div
           key={encounter + index}
-          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl  transition ease-in-out hover:scale-105 duration-75"
+          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl transition ease-in-out hover:scale-105 duration-75"
         >
           <div className="bg-opacity-25 bg-slate-500 text-white w-full flex items-center justify-center">
-            <img src={`${pokeEncounterSprite[index]}`} alt="" />
+            <img
+              src={`${pokeEncounterSprite[index]}`}
+              alt=""
+              onClick={() => {
+                setPokemonName(pokeEncounter[index]);
+                document.getElementById("pokemon_details").showModal();
+              }}
+            />
           </div>
           <div
             className="p-1 font-medium bg-slate-900 w-full flex items-center justify-center rounded-t-sm"
@@ -62,8 +70,7 @@ function RegionDetails({
   function Reset() {
     areaNames.length = 0;
     setLocationId(0);
-    pokeEncounterSprite.length = 0;
-    pokeEncounter.length = 0;
+    setPokeEncounter(0);
     history.replaceState(null, "remover region", "/");
   }
 
@@ -82,7 +89,7 @@ function RegionDetails({
                   className="flex modal-action items-center justify-center text-base"
                 >
                   <button onClick={Reset} id="region_close">
-                    <ArrowLeftIcon className="size-8 hover:scale-125" />
+                    <ArrowLeftIcon className="size-8 hover:scale-125 transition easy-in-out" />
                   </button>
                 </form>
                 <h1 id="region_datils" className="flex flex-col text-3xl">
@@ -92,7 +99,7 @@ function RegionDetails({
                 </h1>
                 <NavigationMenu.Trigger className="NavigationMenuTrigger flex items-center justify-center flex-row">
                   <ChevronDownIcon
-                    className="CaretDown size-12 hover:scale-125"
+                    className="CaretDown size-12 hover:scale-125 transition easy-in-out"
                     aria-hidden
                   />
                 </NavigationMenu.Trigger>
@@ -103,7 +110,7 @@ function RegionDetails({
                         <LocationsDisplay
                           setLocationId={setLocationId}
                           regionLoc={regionLoc}
-                          locationDisplayStyle="border-b-2 border-opacity-40 drop-shadow-2xl border-t-2 border-slate-950 mt-2 bg-slate-600 rounded-b-sm rounded-t-sm px-1 hover:scale-110"
+                          locationDisplayStyle="border-b-2 border-opacity-40 drop-shadow-2xl border-t-2 border-slate-950 mt-2 bg-slate-600 rounded-b-sm rounded-t-sm px-1 hover:scale-110 transition easy-in-out"
                           locationDysplayTextColor={
                             regionColor[regionURLIndex - 1]
                           }
@@ -142,12 +149,12 @@ function RegionDetails({
                 ? locationId.toUpperCase().replace(/-+/g, " ") + " AREAS"
                 : "Select a location"}
             </h1>
-            <div className="flex-wrap items-center flex justify-center gap-x-1 w-full h-4/5 px-1">
+            <div className="flex-wrap items-center flex justify-center gap-x-1 gap-y-1 w-full h-4/5 px-1">
               <MapAreas areaStyleTextColor={regionColor[regionURLIndex - 1]} />
             </div>
           </div>
 
-          <div className="flex hide-scrollbar flex-wrap p-2 items-start justify-center gap-1 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
+          <div className="flex hide-scrollbar min-h-20 flex-wrap p-2 items-start justify-center gap-1 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
             <AreaSprites />
           </div>
         </div>

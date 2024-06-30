@@ -12,7 +12,6 @@ import {
   DexSelector,
   DexDisplay,
 } from "../PokedexComponents";
-import { useEffect } from "react";
 
 export function RegionSelectorModal({
   pokeRegion,
@@ -36,7 +35,6 @@ export function RegionSelectorModal({
     setTimeout(function () {
       document.getElementById("btn_region_next").disabled = false;
     }, 250);
-    console.log(regionURLIndex);
   }
 
   function RegionPrev() {
