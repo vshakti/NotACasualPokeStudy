@@ -25,7 +25,7 @@ function RegionDetails({
       pokeEncounter.map((encounter, index) => (
         <div
           key={encounter + index}
-          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl transition ease-in-out hover:scale-105 duration-75"
+          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl transition ease-in-out hover:scale-105 duration-75 cursor-pointer"
         >
           <div className="bg-opacity-25 bg-slate-500 text-white w-full flex items-center justify-center">
             <img
@@ -40,6 +40,10 @@ function RegionDetails({
           <div
             className="p-1 font-medium bg-slate-900 w-full flex items-center justify-center rounded-t-sm"
             style={{ color: `${regionColor[regionURLIndex - 1]}` }}
+            onClick={() => {
+              setPokemonName(pokeEncounter[index]);
+              document.getElementById("pokemon_details").showModal();
+            }}
           >
             {encounter.toString().charAt(0).toUpperCase() +
               encounter.toString().slice(1).replace(/-+/g, " ")}

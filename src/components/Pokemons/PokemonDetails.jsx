@@ -2,17 +2,22 @@ import "../../index.css";
 import { DexBG, DexLine } from "../PokedexComponents";
 import { useState } from "react";
 import { XMarkIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { PokemonAbilities } from "./DetailsComponents/PokemonAbilities";
+import { PokemonType } from "./DetailsComponents/PokemonType";
+import { PokemonMoves } from "./DetailsComponents/PokemonMoves";
+import { PokemonStats } from "./DetailsComponents/PokemonStats";
 
 export default function PokemonDetails({
   typeColorsBg,
   pokemon,
   typeColorsText,
-  PokemonStats,
-  PokemonType,
-  PokemonAbilities,
   typeColorsBorder,
   typeColorsShadows,
-  PokemonMoves,
+  setPokemonAbilitiesID,
+  typeIcons,
+  pokemonAbilities,
+  setTypeID,
+  pokemonType,
 }) {
   const [currentView, setCurrentView] = useState("STATS");
   const [currentSprite, setCurrentSprite] = useState("NORMAL");
@@ -28,14 +33,36 @@ export default function PokemonDetails({
         bodyStyle="bg-slate-300 h-content relative w-96 max-h-full overflow-hidden"
       >
         <div className="bg-slate-900 flex-row justify-between px-2 pl-4 font-bold h-16 flex place-self-end border-white border-b-8 w-64 items-center shadow-regionSelectorClose">
-          <h1
-            className={`${
-              typeColorsText[pokemon.types[0]?.type.name]
-            } text-4xl`}
-          >
-            {pokemon.name.charAt(0).toUpperCase() +
-              pokemon.name.slice(1).replace(/-+/g, " ")}
-          </h1>
+          {pokemon.name.length >= 13 && (
+            <h1
+              className={`${
+                typeColorsText[pokemon.types[0]?.type.name]
+              } text-[1.2rem]`}
+            >
+              {pokemon.name.charAt(0).toUpperCase() +
+                pokemon.name.slice(1).replace(/-+/g, " ")}
+            </h1>
+          )}
+          {pokemon.name.length > 6 && pokemon.name.length <= 12 && (
+            <h1
+              className={`${
+                typeColorsText[pokemon.types[0]?.type.name]
+              } text-3xl`}
+            >
+              {pokemon.name.charAt(0).toUpperCase() +
+                pokemon.name.slice(1).replace(/-+/g, " ")}
+            </h1>
+          )}
+          {pokemon.name.length <= 6 && (
+            <h1
+              className={`${
+                typeColorsText[pokemon.types[0]?.type.name]
+              } text-4xl`}
+            >
+              {pokemon.name.charAt(0).toUpperCase() +
+                pokemon.name.slice(1).replace(/-+/g, " ")}
+            </h1>
+          )}
 
           <form method="dialog">
             <button
@@ -49,16 +76,42 @@ export default function PokemonDetails({
             </button>
           </form>
         </div>
-        <div className="w-full flex flex-col gap-y-2">
+        <div className="w-full flex flex-col">
           <div className="flex h-content min-h-16 w-full justify-between flex-row">
-            <span className="flex items-end justify-start w-24 -mb-1.5 font-semibold pl-2 text-sm">
-              Weigth: {pokemon.weight}
-            </span>
-            <div className="flex flex-wrap w-64 justify-start py-1 px-1">
-              <PokemonType />
+            <div className="flex items-start justify-end w-24 h-40 font-semibold text-base flex-col">
+              <span className="pl-1.5">WEIGTH</span>
+              <span className="font-bold border-l-0 rounded-r-lg px-2 bg-slate-900 text-white border-2">
+                {pokemon.weight}
+              </span>
+              <span className="pl-1.5">HEIGTH</span>
+              <span className="font-bold border-l-0 rounded-r-lg px-2 bg-slate-900 text-white border-2">
+                {pokemon.height}
+              </span>
+            </div>
+
+            <div className="flex w-64 h-40 flex-col">
+              <div className="h-content flex-wrap border-b-4 rounded-bl-md border-white shadow-regionDisplay w-full flex py-0.5 gap-x-1 gap-y-0.5 justify-center flex-row items-start">
+                <PokemonAbilities
+                  pokemonAbilities={pokemonAbilities}
+                  pokemon={pokemon}
+                  setPokemonAbilitiesID={setPokemonAbilitiesID}
+                />
+              </div>
+              <div className="flex items-center w-full justify-center h-full">
+                <div className="flex flex-wrap w-content justify-evenly py-2 px-4 gap-4 rounded-2xl border-4 shadow-regionDisplay bg-slate-800">
+                  <PokemonType
+                    typeColorsBorder={typeColorsBorder}
+                    typeColorsShadows={typeColorsShadows}
+                    pokemon={pokemon}
+                    typeIcons={typeIcons}
+                    setTypeID={setTypeID}
+                    pokemonType={pokemonType}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="h-12 flex flex-wrap items-center justify-center gap-4 mt-2">
+          <div className="h-12 flex flex-wrap items-center border-t-8 justify-center gap-8 mt-2 py-2.5 font-semibold text-xl">
             <div
               onClick={() => handleView("STATS")}
               className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
@@ -66,14 +119,6 @@ export default function PokemonDetails({
               } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
             >
               STATS
-            </div>
-            <div
-              onClick={() => handleView("ABILITIES")}
-              className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
-                typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
-            >
-              ABILITIES
             </div>
             <div
               onClick={() => handleView("MOVES")}
@@ -91,17 +136,20 @@ export default function PokemonDetails({
         >
           {currentView === "STATS" && (
             <div className="min-h-64 w-full px-6 flex flex-col py-1 overflow-y-scroll hide-scrollbar">
-              <PokemonStats />
+              <PokemonStats
+                pokemon={pokemon}
+                typeColorsBg={typeColorsBg}
+                typeColorsShadows={typeColorsShadows}
+              />
             </div>
           )}
-          {currentView === "ABILITIES" && (
-            <div className="h-full w-full flex py-4 items-center flex-wrap gap-4 justify-center">
-              <PokemonAbilities />
-            </div>
-          )}
+
           {currentView === "MOVES" && (
             <div className="min-h-32 max-h-96 w-full flex py-4 items-center px-1.5 flex-wrap gap-5 pb-4 justify-center hide-scrollbar overflow-y-scroll">
-              <PokemonMoves />
+              <PokemonMoves
+                pokemon={pokemon}
+                typeColorsShadows={typeColorsShadows}
+              />
             </div>
           )}
         </DexLine>
@@ -112,7 +160,7 @@ export default function PokemonDetails({
         >
           <div className="flex flex-row absolute w-full justify-end px-1 top-20">
             {currentSprite === "NORMAL" && (
-              <EyeIcon
+              <EyeSlashIcon
                 className={`drop-shadow-2xl text-slate-200 opacity-80 rounded-full hover:scale-125 transition easy-in-out size-4 cursor-pointer`}
                 onClick={() =>
                   currentSprite === "NORMAL"
@@ -122,7 +170,7 @@ export default function PokemonDetails({
               />
             )}
             {currentSprite === "SHINY" && (
-              <EyeSlashIcon
+              <EyeIcon
                 className={`drop-shadow-2xl text-slate-200 opacity-80 rounded-full hover:scale-125 transition easy-in-out size-4 cursor-pointer`}
                 onClick={() =>
                   currentSprite === "NORMAL"

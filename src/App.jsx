@@ -6,7 +6,7 @@ import { regionBgs } from "./utils/importRegionsBG";
 import { type } from "./utils/importTypeIcons";
 import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
 import { PokemonSearchModal } from "./components/Pokemons/PokemonSearch";
-import logo from "./assets/LogoBalls/logo.png";
+// import logo from "./assets/LogoBalls/logo.png";
 import { dexes } from "./utils/importPokebolas";
 import {
   ChevronDoubleLeftIcon,
@@ -16,6 +16,7 @@ import RegionDetails from "./components/Regions/RegionDetails";
 import PokemonDetails from "./components/Pokemons/PokemonDetails";
 
 function App() {
+  const language = "en";
   const [pokeRegion, setPokeRegion] = useState([]);
   let RGB = [...regionBgs];
   const [regionURLIndex, setRegionURLIndex] = useState(1);
@@ -44,7 +45,7 @@ function App() {
     name: "",
     weight: null,
     abilities: [],
-    forms: [],
+    height: null,
     moves: [],
     sprite: "",
     spriteShiny: "",
@@ -52,22 +53,28 @@ function App() {
     types: [],
   });
   const [pokemonOrder, setPokemonOrder] = useState(0);
-  const [pokemonName, setPokemonName] = useState({
-    id: null,
-    name: "",
-    weight: null,
-    abilities: [],
-    forms: [],
-    moves: [],
-    sprite: "",
-    spriteShiny: "",
-    stats: [],
-    types: [],
-  });
+  const [pokemonName, setPokemonName] = useState();
   const [pokemonTotal, setPokemonTotal] = useState([]);
   const [possiblePokemon, setPossiblePokemon] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [validSearch, setValidSearch] = useState(0);
+  const [pokemonAbilitiesID, setPokemonAbilitiesID] = useState();
+  const [pokemonAbilities, setPokemonAbilities] = useState({
+    id: null,
+    name: "",
+    effect: "",
+  });
+  const [typeID, setTypeID] = useState();
+  const [pokemonType, setPokemonType] = useState({
+    id: null,
+    name: "",
+    noDamageTo: [],
+    halfDamageTo: [],
+    doubleDamageTo: [],
+    noDamageFrom: [],
+    halfDamageFrom: [],
+    doubleDamageFrom: [],
+  });
   const typeIcons = {
     bug: type[0],
     dark: type[1],
@@ -190,7 +197,7 @@ function App() {
           name: data.name,
           weight: data.weight,
           abilities: data.abilities,
-          forms: data.order,
+          height: data.height,
           moves: data.moves,
           sprite: data.sprites.front_default,
           spriteShiny: data.sprites.front_shiny,
@@ -217,7 +224,7 @@ function App() {
             name: data.name,
             weight: data.weight,
             abilities: data.abilities,
-            forms: data.forms,
+            height: data.height,
             moves: data.moves,
             sprite: data.sprites.front_default,
             spriteShiny: data.sprites.front_shiny,
@@ -235,11 +242,61 @@ function App() {
   }, [pokemonName]);
 
   useEffect(() => {
+    if (typeID && typeID.length > 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/type/${typeID}`)
+        .then((response) => {
+          const data = response.data;
+          setPokemonType({
+            id: data.id,
+            name: data.name,
+            noDamageTo: data.damage_relations.no_damage_to,
+            halfDamageTo: data.damage_relations.half_damage_to,
+            doubleDamageTo: data.damage_relations.double_damage_to,
+            noDamageFrom: data.damage_relations.no_damage_from,
+            halfDamageFrom: data.damage_relations.half_damage_from,
+            doubleDamageFrom: data.damage_relations.double_damage_from,
+          });
+        })
+        .catch((error) => {
+          console.error(`https://pokeapi.co/api/v2/type/${typeID}`, error);
+        });
+    }
+  }, [typeID]);
+
+  useEffect(() => {
     if (pokemonTotal.length > 0) {
       const newpossiblePokemon = pokemonTotal.map((pokemon) => pokemon.name);
       setPossiblePokemon(newpossiblePokemon);
     }
   }, [pokemonTotal]);
+
+  useEffect(() => {
+    if (pokemonAbilitiesID && pokemonAbilitiesID.length > 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/ability/${pokemonAbilitiesID}`)
+        .then((response) => {
+          const data = response.data;
+          for (let i = 0; data.effect_entries.length; i++) {
+            if (data.effect_entries[i].language.name === language) {
+              setPokemonAbilities({
+                id: data.id,
+                name: data.name,
+                effect: data.effect_entries[i].short_effect,
+              });
+              break;
+            }
+          }
+        })
+
+        .catch((error) => {
+          console.error(
+            `https://pokeapi.co/api/v2/ability/${pokemonAbilitiesID}`,
+            error
+          );
+        });
+    }
+  }, [pokemonAbilitiesID]);
 
   function CheckSearch() {
     if (possiblePokemon.includes(searchString.toLowerCase())) {
@@ -337,92 +394,9 @@ function App() {
     }
   }, [regionURLIndex, pokeRegion.length, setRegionLoc]);
 
-  function PokemonType() {
-    return pokemon.types && pokemon.types.length > 0 ? (
-      pokemon.types.map((type, index) => (
-        <div key={type.type + index}>
-          <img
-            src={`${typeIcons[type.type.name]}`}
-            alt=""
-            className="size-12"
-          />
-        </div>
-      ))
-    ) : (
-      <div>no type</div>
-    );
-  }
-
-  function PokemonStats() {
-    return pokemon.stats && pokemon.stats.length > 0 ? (
-      pokemon.stats.map((stats, index) => (
-        <div key={stats + index}>
-          <div className="flex flex-col h-16 w-full px-2 justify-center gap-y-0.5 items-start antialiased hover:scale-110 transition easy-in-out">
-            <div className="text-base text-white font-semibold pl-2">
-              {stats.stat.name.toUpperCase().replace(/-+/g, " ")}
-            </div>
-            <div
-              className={`w-full h-6 bg-gray-200 ${
-                typeColorsShadows[pokemon.types[0]?.type.name]
-              } rounded-full flex items-center justify-between pr-2 border space-x-1`}
-            >
-              <div
-                className={`h-full flex items-center rounded-full pl-2 ${
-                  typeColorsBg[pokemon.types[0]?.type.name]
-                } `}
-                style={{ width: `${stats.base_stat * 0.5}%` }}
-              ></div>
-              <span className="text-slate-800 flex font-bold text-base">
-                {stats.base_stat}
-              </span>
-            </div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div>no stats</div>
-    );
-  }
-
-  function PokemonAbilities() {
-    return pokemon.abilities && pokemon.abilities.length > 0 ? (
-      pokemon.abilities.map((abilityObj, index) => (
-        <div
-          key={abilityObj.ability.name + index}
-          className={`${
-            typeColorsShadows[pokemon.types[0]?.type.name]
-          } py-0.5 px-2 flex items-center w-max justify-center text-white rounded-full font-semibold`}
-        >
-          {abilityObj.ability.name.toUpperCase().replace(/-+/g, " ")}
-        </div>
-      ))
-    ) : (
-      <div>no abilities</div>
-    );
-  }
-
-  function PokemonMoves() {
-    return pokemon.moves && pokemon.moves.length > 0 ? (
-      pokemon.moves
-        .sort((a, b) => a.move.name.localeCompare(b.move.name))
-        .map((moveObj, index) => (
-          <div
-            key={moveObj + index}
-            className={`${
-              typeColorsShadows[pokemon.types[0]?.type.name]
-            } py-1.5 px-2 flex items-center w-max h-max justify-center rounded-2xl text-white font-semibold`}
-          >
-            {moveObj.move.name.toUpperCase().replace(/-+/g, " ")}
-          </div>
-        ))
-    ) : (
-      <div>no moves</div>
-    );
-  }
-
   return (
-    <div className="h-screen w-screen flex-col bg-gradient-to-b gap-y-12 flex items-center justify-center from-blue-950 to-sky-600">
-      <div className="flex items-center space-x-0">
+    <div className="h-screen w-screen bg-gradient-to-b gap-y-12 flex items-center justify-center from-blue-950 to-sky-600">
+      <div className="flex-row flex gap-x-4">
         <button
           id="options_back"
           disabled={activeIndex <= 0}
@@ -435,9 +409,42 @@ function App() {
         >
           <ChevronDoubleLeftIcon className="text-white" />
         </button>
-        <h1 className="text-4xl flex items-center justify-center px-4 py-2 font-bold text-white ">
-          {possibleOptions[activeIndex]}
-        </h1>
+        <div className="flex flex-row" id="dex_selector">
+          {dexes.map((selectors, index) => (
+            <div key={index}>
+              <button
+                className="flex flex-col gap-y-6 items-center justify-center"
+                id="btn_start"
+                disabled={index !== activeIndex}
+                onClick={() => {
+                  document
+                    .getElementById(`main_modal_${activeIndex}`)
+                    .showModal();
+                  setPokemonOrder(0);
+                }}
+              >
+                <img
+                  src={selectors}
+                  alt="dexes"
+                  className={`size-32 transition-transform duration-500 drop-shadow-2xl shadow-black ${
+                    index === activeIndex
+                      ? "translate-y-12 scale-150 hoverCardContent"
+                      : "-translate-y-10 opacity-80"
+                  }`}
+                />
+                <h1
+                  className={`border-8 px-4 pl-2 rounded-full bg-opacity-80 border-yellow-400 bg-slate-800 ${
+                    index === activeIndex
+                      ? "translate-y-12 scale-150 hoverCardContent"
+                      : "-translate-y-10 opacity-0"
+                  } transition-transform duration-500 text-2xl flex items-center justify-center px-4 py-2 font-bold font-serif text-yellow-400`}
+                >
+                  {possibleOptions[activeIndex]}
+                </h1>
+              </button>
+            </div>
+          ))}
+        </div>
         <button
           id="options_next"
           disabled={activeIndex >= 2}
@@ -450,32 +457,6 @@ function App() {
         >
           <ChevronDoubleRightIcon className="text-white" />
         </button>
-      </div>
-      <div className="flex flex-row origin-top-left" id="dex_selector">
-        {dexes.map((selectors, index) => (
-          <div key={index}>
-            <button
-              id="btn_start"
-              disabled={index !== activeIndex}
-              onClick={() => {
-                document
-                  .getElementById(`main_modal_${activeIndex}`)
-                  .showModal();
-                setPokemonOrder(0);
-              }}
-            >
-              <img
-                src={selectors}
-                alt="dexes"
-                className={`size-32 transition-transform duration-500 drop-shadow-2xl shadow-black ${
-                  index === activeIndex
-                    ? "translate-y-12 scale-125"
-                    : "-translate-y-10  opacity-80"
-                }`}
-              />
-            </button>
-          </div>
-        ))}
       </div>
       <RegionSelectorModal
         activeIndex={activeIndex}
@@ -514,14 +495,14 @@ function App() {
         setPokemonOrder={setPokemonOrder}
       />
       <PokemonDetails
+        pokemonType={pokemonType}
+        setTypeID={setTypeID}
+        pokemonAbilities={pokemonAbilities}
+        setPokemonAbilitiesID={setPokemonAbilitiesID}
         setSearchString={setSearchString}
         searchString={searchString}
         setPokeEncounter={setPokeEncounter}
         setPokemonOrder={setPokemonOrder}
-        PokemonMoves={PokemonMoves}
-        PokemonAbilities={PokemonAbilities}
-        PokemonStats={PokemonStats}
-        PokemonType={PokemonType}
         typeColorsBorder={typeColorsBorder}
         typeIcons={typeIcons}
         typeColorsShadows={typeColorsShadows}
@@ -538,7 +519,6 @@ function App() {
         searchString={searchString}
         setSearchString={setSearchString}
       />
-      ;
     </div>
   );
 }

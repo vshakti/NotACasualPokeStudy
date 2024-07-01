@@ -58,3 +58,7 @@ div.pipa-corner {
     0 55%
   );
 }
+
+.hoverCardContent {
+  z-index: 9999;
+}

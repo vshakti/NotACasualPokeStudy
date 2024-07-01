@@ -131,11 +131,39 @@ export function PokemonSelectorModal({
 
           <div className="w-full gap-2 font-semibold text-4xl py-0.5 border-r-0 border-l-0 shadow-regionSelectorLine border-white border-8 m-8 items-center justify-end flex px-0.5 bg-slate-900 text-white">
             <pre className="flex flex-row w-full justify-center items-center">
-              <h1 className={`${typeColorsText[pokemon.types[0]?.type.name]}`}>
-                {pokemon.id}{" "}
-                {pokemon.name.charAt(0).toUpperCase() +
-                  pokemon.name.slice(1).replace(/-+/g, " ")}
-              </h1>
+              {pokemon.name.length >= 13 && (
+                <h1
+                  className={`${
+                    typeColorsText[pokemon.types[0]?.type.name]
+                  } text-[1.2rem] flex flex-row`}
+                >
+                  <pre>{pokemon.id} </pre>
+                  {pokemon.name.charAt(0).toUpperCase() +
+                    pokemon.name.slice(1).replace(/-+/g, " ")}
+                </h1>
+              )}
+              {pokemon.name.length > 6 && pokemon.name.length <= 12 && (
+                <h1
+                  className={`${
+                    typeColorsText[pokemon.types[0]?.type.name]
+                  } text-3xl flex flex-row`}
+                >
+                  <pre>{pokemon.id} </pre>
+                  {pokemon.name.charAt(0).toUpperCase() +
+                    pokemon.name.slice(1).replace(/-+/g, " ")}
+                </h1>
+              )}
+              {pokemon.name.length <= 6 && (
+                <h1
+                  className={`${
+                    typeColorsText[pokemon.types[0]?.type.name]
+                  } text-4xl flex flex-row`}
+                >
+                  <pre>{pokemon.id} </pre>
+                  {pokemon.name.charAt(0).toUpperCase() +
+                    pokemon.name.slice(1).replace(/-+/g, " ")}
+                </h1>
+              )}
 
               <h1
                 className={`${typeColorsText[pokemon.types[0]?.type.name]}`}
