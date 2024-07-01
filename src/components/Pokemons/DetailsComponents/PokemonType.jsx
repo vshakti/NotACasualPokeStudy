@@ -27,17 +27,17 @@ export function PokemonType({
           openDelay={250}
           closeDelay={0}
           sideOffset={-45}
-          className={`hoverCardContent rounded-3xl w-screen h-screen flex items-start justify-center`}
+          className={`hoverCardContent`}
         >
           {pokemonType ? (
             <div
               className={`${
                 typeColorsShadows[type.type.name]
-              } w-content max-w-96 rounded-3xl flex-col flex justify-start items-center bg-slate-600 antialiased border-8 ${
+              } w-content max-w-96 rounded-3xl flex-col flex justify-start items-center bg-slate-300 antialiased border-8 ${
                 typeColorsBorder[type.type.name]
               }`}
             >
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full text-lg font-medium tracking-tight">
+              <div className="hover:shadow-regionDisplay rounded-3xl hover:scale-150 transition easy-in-out cursor-pointer bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full text-lg font-medium tracking-tight">
                 <h1
                   className={`${
                     typeColorsBorder[type.type.name]
@@ -52,7 +52,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[zeroDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}
@@ -63,7 +63,7 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
+              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
@@ -78,7 +78,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[halfDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}
@@ -89,7 +89,7 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
+              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
@@ -104,7 +104,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[doubleDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}
@@ -115,7 +115,7 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
@@ -130,7 +130,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[zeroDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}
@@ -141,7 +141,7 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
@@ -156,7 +156,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[halfDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}
@@ -167,7 +167,7 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="rounded-b-3xl hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
@@ -182,7 +182,7 @@ export function PokemonType({
                         <img
                           src={`${typeIcons[doubleDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-125 transition easy-in-out"
+                          className="size-16 hover:scale-110 transition easy-in-out"
                         />
                       </div>
                     ))}

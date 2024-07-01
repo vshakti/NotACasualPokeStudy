@@ -18,6 +18,8 @@ export default function PokemonDetails({
   pokemonAbilities,
   setTypeID,
   pokemonType,
+  setPokemonMovesID,
+  pokemonMoves,
 }) {
   const [currentView, setCurrentView] = useState("STATS");
   const [currentSprite, setCurrentSprite] = useState("NORMAL");
@@ -37,7 +39,7 @@ export default function PokemonDetails({
             <h1
               className={`${
                 typeColorsText[pokemon.types[0]?.type.name]
-              } text-[1.2rem]`}
+              } text-[1.23rem]`}
             >
               {pokemon.name.charAt(0).toUpperCase() +
                 pokemon.name.slice(1).replace(/-+/g, " ")}
@@ -47,7 +49,7 @@ export default function PokemonDetails({
             <h1
               className={`${
                 typeColorsText[pokemon.types[0]?.type.name]
-              } text-3xl`}
+              } text-[1.65rem]`}
             >
               {pokemon.name.charAt(0).toUpperCase() +
                 pokemon.name.slice(1).replace(/-+/g, " ")}
@@ -76,8 +78,8 @@ export default function PokemonDetails({
             </button>
           </form>
         </div>
-        <div className="w-full flex flex-col">
-          <div className="flex h-content min-h-16 w-full justify-between flex-row">
+        <div className="w-full flex flex-col ">
+          <div className="flex h-content min-h-44 w-full justify-between flex-row">
             <div className="flex items-start justify-end w-24 h-40 font-semibold text-base flex-col">
               <span className="pl-1.5">WEIGTH</span>
               <span className="font-bold border-l-0 rounded-r-lg px-2 bg-slate-900 text-white border-2">
@@ -111,22 +113,20 @@ export default function PokemonDetails({
               </div>
             </div>
           </div>
-          <div className="h-12 flex flex-wrap items-center border-t-8 justify-center gap-8 mt-2 py-2.5 font-semibold text-xl">
-            <div
-              onClick={() => handleView("STATS")}
-              className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
-                typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
-            >
-              STATS
-            </div>
-            <div
-              onClick={() => handleView("MOVES")}
-              className={`${typeColorsShadows[pokemon.types[0]?.type.name]} ${
-                typeColorsBorder[pokemon.types[0]?.type.name]
-              } border-2 px-2 py-0.5 bg-slate-800 text-white rounded-2xl hover:scale-125 transition easy-in-out cursor-pointer`}
-            >
-              MOVES
+          <div className="h-12 justify-center">
+            <div className="flex flex-wrap gap-11 justify-center bg-slate-800 border-t-8 shadow-regionSelectorLine w-full items-center py-2.5 font-semibold text-xl">
+              <div
+                onClick={() => handleView("STATS")}
+                className={`border-b-2 border-t-2 rounded-md px-2 py-0.5 text-white hover:scale-150 transition easy-in-out cursor-pointer`}
+              >
+                STATS
+              </div>
+              <div
+                onClick={() => handleView("MOVES")}
+                className={`border-b-2 border-t-2 rounded-md px-2 py-0.5 text-white hover:scale-150 transition easy-in-out cursor-pointer`}
+              >
+                MOVES
+              </div>
             </div>
           </div>
         </div>
@@ -147,6 +147,11 @@ export default function PokemonDetails({
           {currentView === "MOVES" && (
             <div className="min-h-32 max-h-96 w-full flex py-4 items-center px-1.5 flex-wrap gap-5 pb-4 justify-center hide-scrollbar overflow-y-scroll">
               <PokemonMoves
+                typeColorsBorder={typeColorsBorder}
+                typeColorsBg={typeColorsBg}
+                typeIcons={typeIcons}
+                pokemonMoves={pokemonMoves}
+                setPokemonMovesID={setPokemonMovesID}
                 pokemon={pokemon}
                 typeColorsShadows={typeColorsShadows}
               />

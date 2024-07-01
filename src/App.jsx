@@ -75,6 +75,23 @@ function App() {
     halfDamageFrom: [],
     doubleDamageFrom: [],
   });
+  const [pokemonMovesID, setPokemonMovesID] = useState();
+  const [pokemonMoves, setPokemonMoves] = useState({
+    id: null,
+    name: "",
+    accuracy: null,
+    effectChance: null,
+    pp: null,
+    priority: null,
+    power: null,
+    damageClass: "",
+    effect: "",
+    type: "",
+    category: "",
+    ailment: "",
+    ailmentChance: null,
+    crit: null,
+  });
   const typeIcons = {
     bug: type[0],
     dark: type[1],
@@ -263,6 +280,39 @@ function App() {
         });
     }
   }, [typeID]);
+  console.log(pokemonMoves.category);
+  useEffect(() => {
+    if (pokemonMovesID && pokemonMovesID.length > 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/move/${pokemonMovesID}`)
+        .then((response) => {
+          const data = response.data;
+          setPokemonMoves({
+            id: data.id,
+            name: data.name,
+            accuracy: data.accuracy,
+            effectChance: data.effect_chance,
+            pp: data.pp,
+            priority: data.priority,
+            power: data.power,
+            damageClass: data.damage_class.name,
+            effect: data.effect_entries[0].effect,
+            type: data.type.name,
+            category: data.meta.category.name,
+            ailment: data.meta.ailment.name,
+            ailmentChance: data.meta.ailment_chance,
+            crit: data.meta.crit_rate,
+          });
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(
+            `https://pokeapi.co/api/v2/move/${pokemonMovesID}`,
+            error
+          );
+        });
+    }
+  }, [pokemonMovesID]);
 
   useEffect(() => {
     if (pokemonTotal.length > 0) {
@@ -495,6 +545,8 @@ function App() {
         setPokemonOrder={setPokemonOrder}
       />
       <PokemonDetails
+        pokemonMoves={pokemonMoves}
+        setPokemonMovesID={setPokemonMovesID}
         pokemonType={pokemonType}
         setTypeID={setTypeID}
         pokemonAbilities={pokemonAbilities}

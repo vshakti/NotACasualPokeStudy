@@ -18,8 +18,7 @@ export function PokemonAbilities({
             onMouseOver={() => {
               setPokemonAbilitiesID(abilityObj.ability.name);
             }}
-            className="
-          py-0.5 px-1.5 flex items-center w-max justify-center text-white bg-slate-800 rounded-full text-xs font-semibold hover:scale-125 drop-shadow-2xl shadow-dark transition easy-in-out"
+            className="cursor-pointer py-0.5 px-1.5 flex items-center w-max justify-center text-white bg-slate-800 rounded-full text-xs font-semibold hover:scale-125 drop-shadow-2xl shadow-dark transition easy-in-out"
           >
             {abilityObj.ability.name.toUpperCase().replace(/-+/g, " ")}
           </span>
