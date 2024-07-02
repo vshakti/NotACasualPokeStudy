@@ -29,7 +29,7 @@ export function PokemonAbilities({
               className={`shadow-regionSelectorLine w-52 rounded-xl flex-col py-2 px-4 flex justify-center items-center bg-slate-300 divide-y-2 divide-slate-400 antialiased border-8 border-slate-800`}
             >
               <h1 className="text-xl font-bold tracking-wider">
-                {pokemonAbilities.name.toUpperCase()}
+                {pokemonAbilities.name.toUpperCase().replace(/-+/g, " ")}
               </h1>
               <h2 className="flex w-content px-2 flex-wrap font-medium text-lg">
                 {pokemonAbilities.effect}

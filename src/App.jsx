@@ -34,7 +34,7 @@ function App() {
     "rgba(255, 255, 255, 0.8)",
   ];
   let possibleOptions = ["Regiondex", "Pokedex", "Typedex"];
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
   const [areaEncounters, setAreaEncounters] = useState([]);
@@ -351,7 +351,9 @@ function App() {
   function CheckSearch() {
     if (possiblePokemon.includes(searchString.toLowerCase())) {
       setPokemonName(searchString.toLowerCase());
-      setValidSearch(1);
+      setValidSearch(0);
+      setSearchString("");
+      document.getElementById("search_modal").close();
     } else {
       setValidSearch(2);
     }

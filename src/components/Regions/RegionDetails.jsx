@@ -82,7 +82,7 @@ function RegionDetails({
     <dialog className="modal" id="region_datils">
       <DexBG
         bodyGradient={regionColor[regionURLIndex - 1]}
-        bodyStyle="space-y-0 size-content overflow-hidden max-h-3/4 max-w-96 px-3 space-y-4"
+        bodyStyle="space-y-0 size-content max-h-96 max-w-96 px-3 space-y-4"
       >
         <div style={{ color: `${regionColor[regionURLIndex - 1]}` }}>
           <NavigationMenu.Root className="NavigationMenuRoot flex-col flex items-center justify-center">
@@ -158,7 +158,7 @@ function RegionDetails({
             </div>
           </div>
 
-          <div className="flex hide-scrollbar min-h-20 flex-wrap p-2 items-start justify-center gap-1 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
+          <div className="flex hide-scrollbar min-h-20 max-h-96 pb-52 flex-wrap p-2 items-start justify-center gap-1 w-full bg-gray-200 rounded-t-xl overflow-y-scroll border-t-2 border-slate-900">
             <AreaSprites />
           </div>
         </div>

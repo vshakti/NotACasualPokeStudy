@@ -11,8 +11,8 @@ export function PokemonSearchModal({
   CheckSearch,
   validSearch,
   setValidSearch,
-  pokemon,
-  setPokemonOrder,
+  // pokemon,
+  // setPokemonOrder,
 }) {
   return (
     <dialog className="modal" id="search_modal">
@@ -25,7 +25,6 @@ export function PokemonSearchModal({
               onClick={() => {
                 setValidSearch(0);
                 setSearchString("");
-                setPokemonOrder(pokemon.id - 1);
               }}
             >
               <XMarkIcon className="border-2 size-10 rounded-full text-white bg-slate-900 drop-shadow-2xl shadow-black transition hover:scale-110 easy-in-out" />

@@ -21,23 +21,29 @@ export function PokemonSelectorModal({
   pokemonTotal,
 }) {
   function PokemonNext() {
-    setPokemonOrder((prevIndex) =>
-      Math.min(prevIndex + 1, pokemonTotal.length)
-    );
+    setPokemonOrder(pokemonOrder === pokemonTotal.length - 1 ? 0 : pokemon.id);
   }
 
   function PokemonNext50() {
-    setPokemonOrder((prevIndex) =>
-      Math.min(prevIndex + 50, pokemonTotal.length)
+    setPokemonOrder(
+      pokemonOrder >= pokemonTotal.length - 50
+        ? 49 - (pokemonTotal.length - pokemon.id)
+        : pokemon.id + 49
     );
   }
 
   function PokemonPrev() {
-    setPokemonOrder((prevIndex) => Math.max(prevIndex - 1, 0));
+    setPokemonOrder(
+      pokemonOrder === 0 ? pokemonTotal.length - 1 : pokemonOrder - 1
+    );
   }
 
   function PokemonPrev50() {
-    setPokemonOrder((prevIndex) => Math.max(prevIndex - 50, 0));
+    setPokemonOrder(
+      pokemonOrder <= 49
+        ? pokemonTotal.length - (50 - pokemonOrder)
+        : pokemon.id - 51
+    );
   }
 
   let blinkType;
@@ -74,7 +80,6 @@ export function PokemonSelectorModal({
               <div className="flex flex-row items-center">
                 <button
                   id="btn_pokemon_back"
-                  disabled={pokemonOrder <= 0}
                   className="flex items-center justify-center size-8 transition ease-in-out hover:scale-125 duration-75"
                   onClick={PokemonPrev}
                 >
@@ -82,7 +87,6 @@ export function PokemonSelectorModal({
                 </button>
                 <button
                   id="btn_pokemon_back_50"
-                  disabled={pokemonOrder <= 0 + 49}
                   className="flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
                   onClick={PokemonPrev50}
                 >
@@ -92,7 +96,6 @@ export function PokemonSelectorModal({
               <div className="flex flex-row items-center">
                 <button
                   id="btn_pokemon_next_50"
-                  disabled={pokemonOrder >= pokemonTotal.length - 49}
                   className="flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
                   onClick={PokemonNext50}
                 >
@@ -100,7 +103,6 @@ export function PokemonSelectorModal({
                 </button>
                 <button
                   id="btn_pokemon_next"
-                  disabled={pokemonOrder >= pokemonTotal.length}
                   className="flex items-center justify-center size-8 transition ease-in-out hover:scale-125 duration-75"
                   onClick={PokemonNext}
                 >

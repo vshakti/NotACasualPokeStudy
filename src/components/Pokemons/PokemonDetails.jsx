@@ -135,7 +135,7 @@ export default function PokemonDetails({
           bodyLinePlacement="place-self-start w-96 pt-1"
         >
           {currentView === "STATS" && (
-            <div className="min-h-64 w-full px-6 flex flex-col py-1 overflow-y-scroll hide-scrollbar">
+            <div className="min-h-64 max-h-96 w-full px-6 flex flex-col pb-6 overflow-y-scroll hide-scrollbar">
               <PokemonStats
                 pokemon={pokemon}
                 typeColorsBg={typeColorsBg}
