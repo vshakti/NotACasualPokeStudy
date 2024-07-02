@@ -16,18 +16,17 @@ export function PokemonSearchModal({
 }) {
   return (
     <dialog className="modal" id="search_modal">
-      <DexBG bodyStyle="w-content pt-1 pb-2 h-44 gap-y-2 bg-slate-300">
+      <DexBG bodyStyle="w-content pb-2 h-44 gap-y-2 bg-slate-300">
         <div className="size-32 w-full h-24 flex flex-col items-center">
-          <form method="dialog">
+          <form method="dialog" className="flex place-self-end">
             <button
-              className=""
               id="btn_quit_search"
               onClick={() => {
                 setValidSearch(0);
                 setSearchString("");
               }}
             >
-              <XMarkIcon className="border-2 size-10 rounded-full text-white bg-slate-900 drop-shadow-2xl shadow-black transition hover:scale-110 easy-in-out" />
+              <XMarkIcon className="size-10 text-slate-900 place-self-end drop-shadow-2xl shadow-black transition hover:scale-110 easy-in-out" />
             </button>
           </form>
 
@@ -50,7 +49,7 @@ export function PokemonSearchModal({
             </span>
           )}
         </div>
-        <div className="w-5/6 flex flex-row items-center justify-between focus:outline-red-700 h-12 rounded-full border bg-white">
+        <div className="w-5/6 flex flex-row items-center justify-between h-12 rounded-full border bg-white">
           <input
             type="text"
             onClick={() => {

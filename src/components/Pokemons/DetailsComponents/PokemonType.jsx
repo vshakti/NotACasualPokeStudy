@@ -20,7 +20,9 @@ export function PokemonType({
           <img
             src={`${typeIcons[type.type.name]}`}
             alt=""
-            className="size-20 cursor-pointer hover:scale-125 transition easy-in-out"
+            className={`cursor-pointer hover:scale-125 transition easy-in-out rounded-lg ${
+              typeColorsShadows[type.type.name]
+            }`}
           />
         </HoverCard.Trigger>
         <HoverCard.Content
@@ -33,52 +35,52 @@ export function PokemonType({
             <div
               className={`${
                 typeColorsShadows[type.type.name]
-              } w-content max-w-96 rounded-3xl flex-col flex justify-start items-center bg-slate-300 antialiased border-8 ${
-                typeColorsBorder[type.type.name]
-              }`}
+              } w-content max-w-96 overflow-y-scroll hide-scrollbar max-h-96 rounded-3xl flex-col flex justify-start items-center bg-slate-300 antialiased border-8 border-double border-slate-800`}
             >
-              <div className="hover:shadow-regionDisplay rounded-3xl hover:scale-150 transition easy-in-out cursor-pointer bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full text-lg font-medium tracking-tight">
+              <div className="rounded-3xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full text-lg font-medium tracking-tight">
                 <h1
                   className={`${
                     typeColorsBorder[type.type.name]
                   } border-b-2 px-3 bg-slate-800 rounded-t-2xl text-white flex items-center justify-center w-full`}
                 >
-                  DEAL x0 DAMAGE
+                  INNEFECTIVE TO
                 </h1>
                 {pokemonType.noDamageTo.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.noDamageTo.map((zeroDamageTo) => (
                       <div key={zeroDamageTo.name}>
                         <img
                           src={`${typeIcons[zeroDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[zeroDamageTo.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <span className="flex items-center jsutify-center text-2xl border-2 px-2 rounded-full bg-slate-800 text-white">
-                    X
-                  </span>
+                  <span className="flex items-center jsutify-center text-2xl border-2 px-2 rounded-full bg-slate-800 text-white"></span>
                 )}
               </div>
-              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
+              <div className="hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
                   }`}
                 >
-                  DEALS 0.5x DAMAGE
+                  NOT VERY EFFECTIVE TO
                 </h1>
                 {pokemonType.halfDamageTo.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.halfDamageTo.map((halfDamageTo) => (
                       <div key={halfDamageTo.name}>
                         <img
                           src={`${typeIcons[halfDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[halfDamageTo.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}
@@ -89,22 +91,24 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
+              <div className="hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
                   }`}
                 >
-                  DEALS 2x DAMAGE
+                  VERY EFFECTIVE TO
                 </h1>
                 {pokemonType.doubleDamageTo.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.doubleDamageTo.map((doubleDamageTo) => (
                       <div key={doubleDamageTo.name}>
                         <img
                           src={`${typeIcons[doubleDamageTo.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[doubleDamageTo.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}
@@ -115,22 +119,24 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
                   }`}
                 >
-                  RECEIVES 0x DAMAGE
+                  IMMUNE TO
                 </h1>
                 {pokemonType.noDamageFrom.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.noDamageFrom.map((zeroDamageFrom) => (
                       <div key={zeroDamageFrom.name}>
                         <img
                           src={`${typeIcons[zeroDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[zeroDamageFrom.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}
@@ -141,22 +147,24 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
                   }`}
                 >
-                  RECEIVES 0.5x DAMAGE
+                  RESISTANT TO
                 </h1>
                 {pokemonType.halfDamageFrom.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.halfDamageFrom.map((halfDamageFrom) => (
                       <div key={halfDamageFrom.name}>
                         <img
                           src={`${typeIcons[halfDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[halfDamageFrom.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}
@@ -167,22 +175,24 @@ export function PokemonType({
                   </span>
                 )}
               </div>
-              <div className="rounded-b-3xl hover:shadow-regionDisplay hover:scale-150 transition easy-in-out cursor-pointer hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
+              <div className="rounded-b-3xl hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 text-lg font-medium tracking-tight">
                 <h1
                   className={`border-t-2 border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full ${
                     typeColorsBorder[type.type.name]
                   }`}
                 >
-                  RECEIVES 2x DAMAGE
+                  VERY WEAK TO
                 </h1>
                 {pokemonType.doubleDamageFrom.length > 0 ? (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col gap-2.5">
                     {pokemonType.doubleDamageFrom.map((doubleDamageFrom) => (
                       <div key={doubleDamageFrom.name}>
                         <img
                           src={`${typeIcons[doubleDamageFrom.name]}`}
                           alt=""
-                          className="size-16 hover:scale-110 transition easy-in-out"
+                          className={`${
+                            typeColorsShadows[doubleDamageFrom.name]
+                          } hover:scale-110 transition easy-in-out rounded-lg`}
                         />
                       </div>
                     ))}

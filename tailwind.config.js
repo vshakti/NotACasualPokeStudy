@@ -39,58 +39,58 @@ export default {
       },
       colors: {
         bug: {
-          DEFAULT: "#008000",
+          DEFAULT: "#b2bd4d",
         },
         dark: {
-          DEFAULT: "#666666",
+          DEFAULT: "#454541",
         },
         dragon: {
-          DEFAULT: "#00cccc",
+          DEFAULT: "#4843d1",
         },
         electric: {
           DEFAULT: "#ffff33",
         },
         fairy: {
-          DEFAULT: "#ff4dff",
+          DEFAULT: "#f5a4f1",
         },
         fighting: {
-          DEFAULT: "#ff9933",
+          DEFAULT: "#f29418",
         },
         fire: {
-          DEFAULT: "#ff1a1a",
+          DEFAULT: "#eb4e1a",
         },
         flying: {
-          DEFAULT: "#a6a6a6",
+          DEFAULT: "#93d3f5",
         },
         ghost: {
-          DEFAULT: "#9933ff",
+          DEFAULT: "#4d2a44",
         },
         grass: {
-          DEFAULT: "#4dff4d",
+          DEFAULT: "#4bc22b",
         },
         ground: {
-          DEFAULT: "#b38f00",
+          DEFAULT: "#915e24",
         },
         ice: {
-          DEFAULT: "#80ffff",
+          DEFAULT: "#3687e3",
         },
         normal: {
-          DEFAULT: "#80002a",
+          DEFAULT: "#989da3",
         },
         poison: {
-          DEFAULT: "#400080",
+          DEFAULT: "#9d3be3",
         },
         psychic: {
-          DEFAULT: "#e600ac",
+          DEFAULT: "#ed58a2",
         },
         rock: {
-          DEFAULT: "#993300",
+          DEFAULT: "#8a876b",
         },
         steel: {
-          DEFAULT: "#80ffbf",
+          DEFAULT: "#789fc2",
         },
         water: {
-          DEFAULT: "#1a75ff",
+          DEFAULT: "#266ced",
         },
       },
     },

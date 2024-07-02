@@ -45,7 +45,9 @@ export function PokemonMoves({
                   <img
                     src={`${typeIcons[pokemonMoves.type]}`}
                     alt=""
-                    className="size-12"
+                    className={`${
+                      typeColorsShadows[pokemonMoves.type]
+                    } rounded-lg`}
                   />
                 </div>
                 <h2 className="px-2 py-1 max-h-64 w-full bg-slate-300 hover:rounded-2xl hover:border-8 hover:scale-150 transition easy-in-out cursor-pointer overflow-y-scroll hide-scrollbar border-slate-950 border-b-8 flex flex-wrap items-center justify-center font-medium text-sm">

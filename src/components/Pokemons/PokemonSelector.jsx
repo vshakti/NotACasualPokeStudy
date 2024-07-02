@@ -111,7 +111,9 @@ export function PokemonSelectorModal({
               </div>
             </div>
           </DexLine>
-          <div className="size-content border-8 bg-gray-800 absolute rounded-full shadow-pokemonDetailsSprite -top-20 flex items-center justify-center">
+          <div
+            className={`size-36 border-8 bg-gray-800 absolute rounded-full shadow-pokemonDetailsSprite -top-24 flex items-center justify-center`}
+          >
             <button
               onClick={() => {
                 document.getElementById("pokemon_details").showModal();
@@ -121,7 +123,7 @@ export function PokemonSelectorModal({
                 <img
                   src={pokemon.sprite}
                   alt=""
-                  className="flex items-center rounded-full size-content justify-center hover:scale-125 animate-pulse"
+                  className="flex size-28 hover:scale-125"
                 />
               ) : (
                 <div className="flex items-center size-content justify-center hover:scale-125 animate-pulse">

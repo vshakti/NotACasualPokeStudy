@@ -51,6 +51,7 @@ function App() {
     spriteShiny: "",
     stats: [],
     types: [],
+    species: "",
   });
   const [pokemonOrder, setPokemonOrder] = useState(0);
   const [pokemonName, setPokemonName] = useState();
@@ -91,6 +92,13 @@ function App() {
     ailment: "",
     ailmentChance: null,
     crit: null,
+  });
+  const [pokemonEvolutionsURL, setPokemonEvolutionsURL] = useState();
+  const [pokemonEvolutions, setPokemonEvolutions] = useState();
+  const [evolutionsSet, setEvolutionsSet] = useState({
+    name: "",
+    sprites: "",
+    types: [],
   });
   const typeIcons = {
     bug: type[0],
@@ -173,26 +181,27 @@ function App() {
     water: "bg-water",
   };
   const typeColorsShadows = {
-    bug: "shadow-[0_0px_10px_2px_#008000]",
-    dark: "shadow-[0_0px_10px_2px_#666666]",
-    dragon: "shadow-[0_0px_10px_2px_#00cccc]",
+    bug: "shadow-[0_0px_10px_2px_#b2bd4d]",
+    dark: "shadow-[0_0px_10px_2px_#454541]",
+    dragon: "shadow-[0_0px_10px_2px_#4843d1]",
     electric: "shadow-[0_0px_10px_2px_#ffff33]",
-    fairy: "shadow-[0_0px_10px_2px_#ff4dff]",
-    fighting: "shadow-[0_0px_10px_2px_#ff9933]",
+    fairy: "shadow-[0_0px_10px_2px_#f5a4f1]",
+    fighting: "shadow-[0_0px_10px_2px_#f29418]",
     fire: "shadow-[0_0px_10px_2px_#ff1a1a]",
-    flying: "shadow-[0_0px_10px_2px_#a6a6a6]",
-    ghost: "shadow-[0_0px_10px_2px_#9933ff]",
-    grass: "shadow-[0_0px_10px_2px_#4dff4d]",
-    ground: "shadow-[0_0px_10px_2px_#b38f00]",
-    ice: "shadow-[0_0px_10px_2px_#80ffff]",
-    normal: "shadow-[0_0px_10px_2px_#80002a]",
-    poison: "shadow-[0_0px_10px_2px_#400080]",
-    psychic: "shadow-[0_0px_10px_2px_#e600ac]",
-    rock: "shadow-[0_0px_10px_2px_#993300]",
-    steel: "shadow-[0_0px_10px_2px_#80ffbf]",
-    water: "shadow-[0_0px_10px_2px_#1a75ff]",
+    flying: "shadow-[0_0px_10px_2px_#93d3f5]",
+    ghost: "shadow-[0_0px_10px_2px_#4d2a44]",
+    grass: "shadow-[0_0px_10px_2px_#4bc22b]",
+    ground: "shadow-[0_0px_10px_2px_#915e24]",
+    ice: "shadow-[0_0px_10px_2px_#3687e3]",
+    normal: "shadow-[0_0px_10px_2px_#989da3]",
+    poison: "shadow-[0_0px_10px_2px_#9d3be3]",
+    psychic: "shadow-[0_0px_10px_2px_#ed58a2]",
+    rock: "shadow-[0_0px_10px_2px_#8a876b]",
+    steel: "shadow-[0_0px_10px_2px_#789fc2]",
+    water: "shadow-[0_0px_10px_2px_#266ced]",
   };
 
+  //pega o total de pokemons
   useEffect(() => {
     axios
       .get("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1025")
@@ -204,6 +213,7 @@ function App() {
       });
   }, []);
 
+  //seta o pokemon pelas setas do pokedex
   useEffect(() => {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${pokemonOrder + 1}`)
@@ -216,10 +226,11 @@ function App() {
           abilities: data.abilities,
           height: data.height,
           moves: data.moves,
-          sprite: data.sprites.front_default,
-          spriteShiny: data.sprites.front_shiny,
+          sprite: data.sprites.other["official-artwork"].front_default,
+          spriteShiny: data.sprites.other["official-artwork"].front_shiny,
           stats: data.stats,
           types: data.types,
+          species: data.species.url,
         });
       })
       .catch((error) => {
@@ -230,6 +241,7 @@ function App() {
       });
   }, [pokemonOrder]);
 
+  //seta o pokemon pelo nome por clique
   useEffect(() => {
     if (pokemonName && pokemonName.length > 0) {
       axios
@@ -243,10 +255,11 @@ function App() {
             abilities: data.abilities,
             height: data.height,
             moves: data.moves,
-            sprite: data.sprites.front_default,
-            spriteShiny: data.sprites.front_shiny,
+            sprite: data.sprites.other["official-artwork"].front_default,
+            spriteShiny: data.sprites.other["official-artwork"].front_shiny,
             stats: data.stats,
             types: data.types,
+            species: data.species.url,
           });
         })
         .catch((error) => {
@@ -258,6 +271,7 @@ function App() {
     }
   }, [pokemonName]);
 
+  //seta as variaves do tipo baseado no id dele
   useEffect(() => {
     if (typeID && typeID.length > 0) {
       axios
@@ -280,7 +294,8 @@ function App() {
         });
     }
   }, [typeID]);
-  console.log(pokemonMoves.category);
+
+  //seta as variaveis dos moves baseado no id dele
   useEffect(() => {
     if (pokemonMovesID && pokemonMovesID.length > 0) {
       axios
@@ -303,7 +318,6 @@ function App() {
             ailmentChance: data.meta.ailment_chance,
             crit: data.meta.crit_rate,
           });
-          console.log(data);
         })
         .catch((error) => {
           console.error(
@@ -314,6 +328,7 @@ function App() {
     }
   }, [pokemonMovesID]);
 
+  //lista todos os possiveis pokemons em um array (usado para buscar nome dentro dele e comparar)
   useEffect(() => {
     if (pokemonTotal.length > 0) {
       const newpossiblePokemon = pokemonTotal.map((pokemon) => pokemon.name);
@@ -321,6 +336,7 @@ function App() {
     }
   }, [pokemonTotal]);
 
+  //lista as caractericias das habilidades baseada no id dela filtrando apenas os que tem a linguagem de interesse
   useEffect(() => {
     if (pokemonAbilitiesID && pokemonAbilitiesID.length > 0) {
       axios
@@ -348,6 +364,7 @@ function App() {
     }
   }, [pokemonAbilitiesID]);
 
+  //função para procurar o pokemon pelo nome
   function CheckSearch() {
     if (possiblePokemon.includes(searchString.toLowerCase())) {
       setPokemonName(searchString.toLowerCase());
@@ -359,6 +376,7 @@ function App() {
     }
   }
 
+  //pega o nome da area e lista todos os encontros que estão nela
   useEffect(() => {
     if (areaNames && areaNames.length > 0) {
       areaNames.forEach((area) => {
@@ -377,6 +395,7 @@ function App() {
     }
   }, [areaNames]);
 
+  //mapeia os encontros para pegar o nome e sprite de cada encontro dentro dela
   useEffect(() => {
     if (areaEncounters && areaEncounters.length > 0) {
       const fetchPokeEncounters = async () => {
@@ -390,7 +409,8 @@ function App() {
             (response) => response.data.name
           );
           const regionEncounterSprites = responses.map(
-            (response) => response.data.sprites.front_default
+            (response) =>
+              response.data.sprites.other["official-artwork"].front_default
           );
           setPokeEncounter(regionEncounterNames);
           setPokeEncounterSprite(regionEncounterSprites);
@@ -403,6 +423,89 @@ function App() {
     }
   }, [areaEncounters]);
 
+  //usa o url da especie daquele pokemon (pokemon.especies) para pegar o url das evoluções daquele pokemon
+  useEffect(() => {
+    if (pokemon && pokemon.species) {
+      axios
+        .get(`${pokemon.species}`)
+        .then((response) => {
+          const data = response.data;
+          setPokemonEvolutionsURL(data.evolution_chain.url);
+        })
+
+        .catch((error) => {
+          console.error(`${pokemon.species}`, error);
+        });
+    }
+  }, [pokemon]);
+
+  // filtra por recursividade os nomes dos pokemons que estão na cadeia de evolução daquele do pokemon atual em ordem
+  useEffect(() => {
+    if (pokemonEvolutionsURL && pokemonEvolutionsURL.length > 0) {
+      axios
+        .get(`${pokemonEvolutionsURL}`)
+        .then((response) => {
+          const getAllSpeciesNames = (chain) => {
+            let speciesNames = [];
+
+            const traverseChain = (node) => {
+              speciesNames.push(node.species.name);
+              if (node.evolves_to.length > 0) {
+                node.evolves_to.forEach((evolution) => {
+                  traverseChain(evolution);
+                });
+              }
+            };
+
+            traverseChain(chain);
+            return speciesNames;
+          };
+
+          const speciesNames = getAllSpeciesNames(response.data.chain);
+          setPokemonEvolutions(speciesNames);
+        })
+        .catch((error) => {
+          console.error(`${pokemonEvolutionsURL}`, error);
+        });
+    }
+  }, [pokemon, pokemonEvolutionsURL]);
+
+  //mapeia os sprites e nomes das evoluções baseadas no pokemon atual
+  useEffect(() => {
+    if (pokemonEvolutions && pokemonEvolutions.length > 0) {
+      const fetchPokeEncounters = async () => {
+        const promises = pokemonEvolutions.map((evolutions) =>
+          axios.get(`https://pokeapi.co/api/v2/pokemon/${evolutions}`)
+        );
+
+        try {
+          const responses = await Promise.all(promises);
+          const evolutionNames = responses.map(
+            (response) => response.data.name
+          );
+          const evolutionSprites = responses.map(
+            (response) =>
+              response.data.sprites.other["official-artwork"].front_default
+          );
+          const evolutionTypes = responses.map(
+            (response) => response.data.types
+          );
+          setEvolutionsSet({
+            name: evolutionNames,
+            sprites: evolutionSprites,
+            types: evolutionTypes,
+          });
+        } catch (error) {
+          console.error(`$encounter.pokemon.url`, error);
+          return null;
+        }
+      };
+
+      fetchPokeEncounters();
+    }
+  }, [pokemon, pokemonEvolutions]);
+
+  //coloca todas as areas que estão dentro de uma localidade especifica em um array
   useEffect(() => {
     if (locationId && locationId.length > 0) {
       axios
@@ -419,6 +522,7 @@ function App() {
     }
   }, [locationId, setAreaNames]);
 
+  //seta todas as regiões possíveis em um array
   useEffect(() => {
     axios
       .get("https://pokeapi.co/api/v2/region/")
@@ -430,6 +534,7 @@ function App() {
       });
   }, []);
 
+  //coloca todas as localidades de uma região especifica em um array
   useEffect(() => {
     if (regionURLIndex > 0 && regionURLIndex <= pokeRegion.length) {
       axios
@@ -547,6 +652,8 @@ function App() {
         setPokemonOrder={setPokemonOrder}
       />
       <PokemonDetails
+        pokemonEvolutions={pokemonEvolutions}
+        evolutionsSet={evolutionsSet}
         pokemonMoves={pokemonMoves}
         setPokemonMovesID={setPokemonMovesID}
         pokemonType={pokemonType}

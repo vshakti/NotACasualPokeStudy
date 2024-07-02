@@ -35,6 +35,7 @@ function RegionDetails({
                 setPokemonName(pokeEncounter[index]);
                 document.getElementById("pokemon_details").showModal();
               }}
+              className="size-24"
             />
           </div>
           <div
