@@ -123,7 +123,7 @@ export function PokemonSelectorModal({
                 <img
                   src={pokemon.sprite}
                   alt=""
-                  className="flex size-28 hover:scale-125"
+                  className="flex size-24 hover:scale-125"
                 />
               ) : (
                 <div className="flex items-center size-content justify-center hover:scale-125 animate-pulse">
@@ -175,7 +175,7 @@ export function PokemonSelectorModal({
             </pre>
 
             <MagnifyingGlassIcon
-              className="size-4 transition easy-in-out opacity-30 hover:scale-150 fixed cursor-pointer"
+              className="size-4 mr-2 mt-1 transition easy-in-out opacity-30 hover:scale-150 fixed cursor-pointer"
               onClick={() => {
                 document.getElementById("search_modal").showModal();
               }}

@@ -7,6 +7,7 @@ import { PokemonType } from "./DetailsComponents/PokemonType";
 import { PokemonMoves } from "./DetailsComponents/PokemonMoves";
 import { PokemonStats } from "./DetailsComponents/PokemonStats";
 import { PokemonEvolutions } from "./DetailsComponents/PokemonEvolutions";
+import { HeartIcon } from "@heroicons/react/16/solid";
 
 export default function PokemonDetails({
   typeColorsBg,
@@ -23,6 +24,9 @@ export default function PokemonDetails({
   pokemonMoves,
   evolutionsSet,
   pokemonEvolutions,
+  favorites,
+  AddToFavorites,
+  RemoveFromFavorites,
 }) {
   const [currentView, setCurrentView] = useState("STATS");
   const [currentSprite, setCurrentSprite] = useState("NORMAL");
@@ -37,38 +41,91 @@ export default function PokemonDetails({
         bgStyle={`${typeColorsBg[[pokemon.types[0]?.type.name]]} py-20`}
         bodyStyle="bg-slate-300 h-content w-96 relative max-h-full overflow-hidden"
       >
-        <div className="bg-slate-900 flex-row justify-between px-2 pl-4 font-bold h-16 flex place-self-end border-white border-b-8 w-64 items-center shadow-regionSelectorClose">
+        <div className="bg-slate-900 flex-row justify-between pr-2 pl-1.5 font-bold h-16 flex place-self-end border-white border-b-8 w-64 items-center shadow-regionSelectorClose">
           {pokemon.name.length >= 13 && (
-            <h1
-              className={`${
-                typeColorsText[pokemon.types[0]?.type.name]
-              } text-[1.23rem]`}
-            >
-              {pokemon.name.charAt(0).toUpperCase() +
-                pokemon.name.slice(1).replace(/-+/g, " ")}
-            </h1>
+            <div className="pl-1 flex w-full flex-row items-center justify-stretch">
+              <h1
+                className={`${
+                  typeColorsText[pokemon.types[0]?.type.name]
+                } text-[1.23rem]`}
+              >
+                {pokemon.name.charAt(0).toUpperCase() +
+                  pokemon.name.slice(1).replace(/-+/g, " ")}
+              </h1>
+              {!favorites.some((fav) => fav.id === pokemon.id) ? (
+                <button onClick={() => AddToFavorites(pokemon)} className="">
+                  <HeartIcon className="size-6 text-gray-400 shadow-gray-600 shadow-2xl" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => RemoveFromFavorites(pokemon)}
+                  className=""
+                >
+                  <HeartIcon
+                    className={`size-6 rounded-full ${
+                      typeColorsText[pokemon.types[0]?.type.name]
+                    } ${typeColorsShadows[pokemon.types[0]?.type.name]}`}
+                  />
+                </button>
+              )}
+            </div>
           )}
           {pokemon.name.length > 9 && pokemon.name.length <= 12 && (
-            <h1
-              className={`${
-                typeColorsText[pokemon.types[0]?.type.name]
-              } text-[1.80rem]`}
-            >
-              {pokemon.name.charAt(0).toUpperCase() +
-                pokemon.name.slice(1).replace(/-+/g, " ")}
-            </h1>
+            <div className="pl-1 flex w-full flex-row items-center justify-stretch">
+              <h1
+                className={`${
+                  typeColorsText[pokemon.types[0]?.type.name]
+                } text-[1.80rem]`}
+              >
+                {pokemon.name.charAt(0).toUpperCase() +
+                  pokemon.name.slice(1).replace(/-+/g, " ")}
+              </h1>
+              {!favorites.some((fav) => fav.id === pokemon.id) ? (
+                <button onClick={() => AddToFavorites(pokemon)} className="">
+                  <HeartIcon className="size-6 text-gray-400 shadow-gray-600 shadow-2xl" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => RemoveFromFavorites(pokemon)}
+                  className=""
+                >
+                  <HeartIcon
+                    className={`size-6 rounded-full ${
+                      typeColorsText[pokemon.types[0]?.type.name]
+                    } ${typeColorsShadows[pokemon.types[0]?.type.name]}`}
+                  />
+                </button>
+              )}
+            </div>
           )}
           {pokemon.name.length <= 9 && (
-            <h1
-              className={`${
-                typeColorsText[pokemon.types[0]?.type.name]
-              } text-4xl`}
-            >
-              {pokemon.name.charAt(0).toUpperCase() +
-                pokemon.name.slice(1).replace(/-+/g, " ")}
-            </h1>
+            <div className="pl-1 flex w-full flex-row items-center justify-stretch">
+              <h1
+                className={`${
+                  typeColorsText[pokemon.types[0]?.type.name]
+                } text-4xl`}
+              >
+                {pokemon.name.charAt(0).toUpperCase() +
+                  pokemon.name.slice(1).replace(/-+/g, " ")}
+              </h1>
+              {!favorites.some((fav) => fav.id === pokemon.id) ? (
+                <button onClick={() => AddToFavorites(pokemon)} className="">
+                  <HeartIcon className="size-6 text-gray-400 shadow-gray-600 shadow-2xl" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => RemoveFromFavorites(pokemon)}
+                  className=""
+                >
+                  <HeartIcon
+                    className={`size-6 rounded-full ${
+                      typeColorsText[pokemon.types[0]?.type.name]
+                    } ${typeColorsShadows[pokemon.types[0]?.type.name]}`}
+                  />
+                </button>
+              )}
+            </div>
           )}
-
           <form method="dialog">
             <button
               className="size-8 text-white mt-3.5"
@@ -145,7 +202,7 @@ export default function PokemonDetails({
           bodyLinePlacement="place-self-start pt-1 flex w-full"
         >
           {currentView === "STATS" && (
-            <div className="min-h-64 max-h-96 w-full px-6 flex flex-col pb-6 overflow-y-scroll hide-scrollbar">
+            <div className="max-h-72 w-full px-6 flex flex-col pb-8 overflow-y-scroll hide-scrollbar">
               <PokemonStats
                 pokemon={pokemon}
                 typeColorsBg={typeColorsBg}

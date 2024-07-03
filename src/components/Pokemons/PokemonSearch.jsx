@@ -13,11 +13,40 @@ export function PokemonSearchModal({
   setValidSearch,
   possiblePokemon,
   setPokemonName,
-  // pokemon,
-  // setPokemonOrder,
 }) {
   const resultSearch = document.getElementById("search_drop");
   const inputSearch = document.getElementById("pokemon_search");
+
+  function StringDiferentiation(a, b) {
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+
+    var matrix = [];
+
+    for (var i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+
+    for (var j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+
+    for (i = 1; i <= b.length; i++) {
+      for (j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+
+    return matrix[b.length][a.length];
+  }
 
   //função ir até o pokemon clicando na lista de resultados
   function SelectInput(list) {
@@ -37,38 +66,30 @@ export function PokemonSearchModal({
       .sort((a, b) => a.localeCompare(b))
       .map((list) => {
         return (
-          `<li onClick="SelectInput(this)" style="border-radius: 10px; padding: 0px 0px; cursor: pointer;">` +
+          `<li onClick="SelectInput(this)" class="hover:bg-slate-800 hover:text-white rounded-lg p-2 cursor-pointer">` +
           list.charAt(0).toUpperCase() +
           list.slice(1).replace(/-+/g, " ") +
           "</li>"
         );
       });
     resultSearch.innerHTML =
-      "<ul style='width: 100%; padding: 0px 0px ; heigth: 100%; list-style-type: none;'>" +
+      `<ul class="w-full hide-scrollbar h-content max-h-96 list-none overflow-y-scroll">` +
       content.join("") +
       "</ul>";
   }
-
-  //troca o estado dos resultados com hover
-  // const listItems = resultSearch.querySelectorAll("li");
-  // listItems.forEach((item) => {
-  //   item.addEventListener("mouseover", function () {
-  //     this.style.backgroundColor = "darkgrey";
-  //   });
-  //   item.addEventListener("mouseout", function () {
-  //     this.style.backgroundColor = "";
-  //   });
-  // });
 
   return (
     <dialog className="modal" id="search_modal">
       <DexBG bodyStyle="w-content h-content overflow-visible pb-2 h-32 gap-y-2 bg-slate-300">
         <div className="size-32 w-full h-24 flex flex-row justify-between items-center px-1">
           {validSearch === 0 && (
-            <span className="flex items-center justify-center text-slate-900 text-2xl animate-pulse">
-              <ArrowPathIcon className="animate-spin size-6" /> Searching for...
-              {/* {searchString} */}
-            </span>
+            <div className="flex flex-row items-center justify-between px-2 w-2/3">
+              <ArrowPathIcon className="animate-spin size-6" />
+              <span className="flex items-center justify-center text-slate-900 text-2xl animate-pulse">
+                Searching
+                {/* {searchString} */}
+              </span>
+            </div>
           )}
           {validSearch === 1 && (
             <span className="flex items-center justify-center text-slate-900 text-2xl">
@@ -95,8 +116,8 @@ export function PokemonSearchModal({
           </form>
         </div>
         <div className="flex w-5/6 flex-row items-start justify-center">
-          <div className=" gap-y-1 flex flex-col items-center justify-between min-h-12 max-h-full rounded-lg border bg-white">
-            <div className="flex h-full items-center justify-center flex-row">
+          <div className="flex flex-col items-center justify-between min-h-12 max-h-full rounded-lg border bg-white">
+            <div className="flex h-full items-end justify-center flex-row">
               <input
                 id="pokemon_search"
                 type="text"
@@ -106,19 +127,26 @@ export function PokemonSearchModal({
                 }}
                 placeholder="Pokemon..."
                 value={searchString}
-                className="bg-none h-full w-full rounded-full pl-2 text-xl focus:outline-none"
+                className="bg-none h-8 w-full rounded-full pl-2 text-xl focus:outline-none"
                 onChange={(e) => {
                   setSearchString(e.target.value);
                   let result = [];
                   if (searchString.length) {
-                    result = possiblePokemon.filter((keyword) => {
-                      return keyword
-                        .toLowerCase()
-                        .includes(searchString.toLowerCase());
+                    // result = possiblePokemon.filter((keyword) => {
+                    //   return keyword
+                    //     .toLowerCase()
+                    //     .includes(searchString.toLowerCase());
+                    // });
+                    result = possiblePokemon.filter((pokemonName) => {
+                      return (
+                        StringDiferentiation(
+                          searchString,
+                          pokemonName.toLowerCase()
+                        ) <= 3.5
+                      );
                     });
                   }
                   DisplaySearch(result);
-                  console.log(searchString);
                   if (!result.length) {
                     document.getElementById("search_drop").innerHTML =
                       "No results";

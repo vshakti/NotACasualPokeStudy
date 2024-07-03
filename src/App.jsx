@@ -6,7 +6,7 @@ import { regionBgs } from "./utils/importRegionsBG";
 import { type } from "./utils/importTypeIcons";
 import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
 import { PokemonSearchModal } from "./components/Pokemons/PokemonSearch";
-// import logo from "./assets/LogoBalls/logo.png";
+import { Favorites } from "./components/Favorites/Favorites";
 import { dexes } from "./utils/importPokebolas";
 import {
   ChevronDoubleLeftIcon,
@@ -33,7 +33,7 @@ function App() {
     "rgba(255, 153, 255, 0.8)",
     "rgba(255, 255, 255, 0.8)",
   ];
-  let possibleOptions = ["Regiondex", "Pokedex", "Typedex"];
+  let possibleOptions = ["Regions", "Pokedex", "Favorites"];
   const [activeIndex, setActiveIndex] = useState(0);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
@@ -100,6 +100,7 @@ function App() {
     sprites: "",
     types: [],
   });
+  const [favorites, setFavorites] = useState([]);
   const typeIcons = {
     bug: type[0],
     dark: type[1],
@@ -551,13 +552,29 @@ function App() {
     }
   }, [regionURLIndex, pokeRegion.length, setRegionLoc]);
 
+  //add aos favortis caso não esteja
+  const AddToFavorites = (pokemon) => {
+    if (!favorites.some((fav) => fav.id === pokemon.id)) {
+      setFavorites([...favorites, pokemon]);
+    }
+  };
+
+  //tira dos favoritos
+  const RemoveFromFavorites = (pokemonId) => {
+    const updatedFavorites = favorites.filter(function (el) {
+      return el.id != pokemonId.id;
+    });
+
+    setFavorites(updatedFavorites);
+  };
+
   return (
-    <div className="h-screen w-screen bg-gradient-to-b gap-y-12 flex items-center justify-center from-blue-950 to-sky-600">
-      <div className="flex-row flex gap-x-4">
+    <div className="fixed w-screen h-screen bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
+      <div className="flex-row flex items-center gap-x-2">
         <button
           id="options_back"
           disabled={activeIndex <= 0}
-          className="bg-slate-900 rounded-full border-white border-2 shadow-regionDisplay flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
+          className="flex items-center justify-center size-14 transition ease-in-out hover:scale-125 duration-75"
           onClick={() => {
             setActiveIndex((prevIndex) =>
               Math.min((prevIndex ?? -1) - 1, dexes.length - 1)
@@ -566,11 +583,14 @@ function App() {
         >
           <ChevronDoubleLeftIcon className="text-white" />
         </button>
-        <div className="flex flex-row" id="dex_selector">
+        <div
+          className="flex flex-row items-center h-56 w-56 rounded-full justify-center"
+          id="dex_selector"
+        >
           {dexes.map((selectors, index) => (
             <div key={index}>
               <button
-                className="flex flex-col gap-y-6 items-center justify-center"
+                className="flex w-20 flex-col gap-y-1 items-center justify-center"
                 id="btn_start"
                 disabled={index !== activeIndex}
                 onClick={() => {
@@ -583,18 +603,18 @@ function App() {
                 <img
                   src={selectors}
                   alt="dexes"
-                  className={`size-32 transition-transform duration-500 drop-shadow-2xl shadow-black ${
+                  className={`size-20 transition-transform duration-500 drop-shadow-2xl shadow-black ${
                     index === activeIndex
-                      ? "translate-y-12 scale-150 hoverCardContent"
-                      : "-translate-y-10 opacity-80"
+                      ? "translate-y-4 scale-150 hoverCardContent"
+                      : "-translate-y-2 opacity-65"
                   }`}
                 />
                 <h1
-                  className={`border-8 px-4 pl-2 rounded-full bg-opacity-80 border-yellow-400 bg-slate-800 ${
+                  className={`border-2 pl-2 rounded-full border-yellow-400 bg-slate-800 ${
                     index === activeIndex
-                      ? "translate-y-12 scale-150 hoverCardContent"
-                      : "-translate-y-10 opacity-0"
-                  } transition-transform duration-500 text-2xl flex items-center justify-center px-4 py-2 font-bold font-serif text-yellow-400`}
+                      ? "translate-y-4 scale-150 hoverCardContent"
+                      : "-translate-y-2 opacity-0"
+                  } transition-transform duration-500 text-base flex items-center justify-center px-2 py-0.5 font-bold font-serif text-yellow-400`}
                 >
                   {possibleOptions[activeIndex]}
                 </h1>
@@ -605,7 +625,7 @@ function App() {
         <button
           id="options_next"
           disabled={activeIndex >= 2}
-          className="bg-slate-900 rounded-full border-white border-2 shadow-regionDisplay flex items-center justify-center size-12 transition ease-in-out hover:scale-125 duration-75"
+          className="flex items-center justify-center size-14 transition ease-in-out hover:scale-125 duration-75"
           onClick={() => {
             setActiveIndex((prevIndex) =>
               Math.min((prevIndex ?? -1) + 1, dexes.length)
@@ -614,75 +634,88 @@ function App() {
         >
           <ChevronDoubleRightIcon className="text-white" />
         </button>
-
-        <RegionSelectorModal
-          activeIndex={activeIndex}
-          pokeRegion={pokeRegion}
-          RGB={RGB}
-          regionColor={regionColor}
-          regionURLIndex={regionURLIndex}
-          setRegionURLIndex={setRegionURLIndex}
-          regionLoc={regionLoc}
-          setRegionLoc={setRegionLoc}
-          possibleOptions={possibleOptions}
-        />
-        <RegionDetails
-          setPokeEncounter={setPokeEncounter}
-          pokemonName={pokemonName}
-          setPokemonName={setPokemonName}
-          locationId={locationId}
-          pokeEncounterSprite={pokeEncounterSprite}
-          pokeEncounter={pokeEncounter}
-          areaNames={areaNames}
-          setLocationId={setLocationId}
-          pokeRegion={pokeRegion}
-          regionURLIndex={regionURLIndex}
-          regionLoc={regionLoc}
-          regionColor={regionColor}
-        />
-        <PokemonSelectorModal
-          pokemonTotal={pokemonTotal}
-          typeColorsShadows={typeColorsShadows}
-          typeColorsBg={typeColorsBg}
-          typeColorsBorder={typeColorsBorder}
-          typeColorsText={typeColorsText}
-          typeIcons={typeIcons}
-          pokemon={pokemon}
-          pokemonOrder={pokemonOrder}
-          setPokemonOrder={setPokemonOrder}
-        />
-        <PokemonDetails
-          pokemonEvolutions={pokemonEvolutions}
-          evolutionsSet={evolutionsSet}
-          pokemonMoves={pokemonMoves}
-          setPokemonMovesID={setPokemonMovesID}
-          pokemonType={pokemonType}
-          setTypeID={setTypeID}
-          pokemonAbilities={pokemonAbilities}
-          setPokemonAbilitiesID={setPokemonAbilitiesID}
-          setSearchString={setSearchString}
-          searchString={searchString}
-          setPokeEncounter={setPokeEncounter}
-          setPokemonOrder={setPokemonOrder}
-          typeColorsBorder={typeColorsBorder}
-          typeIcons={typeIcons}
-          typeColorsShadows={typeColorsShadows}
-          typeColorsBg={typeColorsBg}
-          pokemon={pokemon}
-          typeColorsText={typeColorsText}
-        />
-        <PokemonSearchModal
-          setPokemonName={setPokemonName}
-          possiblePokemon={possiblePokemon}
-          pokemon={pokemon}
-          setPokemonOrder={setPokemonOrder}
-          setValidSearch={setValidSearch}
-          validSearch={validSearch}
-          CheckSearch={CheckSearch}
-          searchString={searchString}
-          setSearchString={setSearchString}
-        />
       </div>
+      <RegionSelectorModal
+        activeIndex={activeIndex}
+        pokeRegion={pokeRegion}
+        RGB={RGB}
+        regionColor={regionColor}
+        regionURLIndex={regionURLIndex}
+        setRegionURLIndex={setRegionURLIndex}
+        regionLoc={regionLoc}
+        setRegionLoc={setRegionLoc}
+        possibleOptions={possibleOptions}
+      />
+      <RegionDetails
+        setPokeEncounter={setPokeEncounter}
+        pokemonName={pokemonName}
+        setPokemonName={setPokemonName}
+        locationId={locationId}
+        pokeEncounterSprite={pokeEncounterSprite}
+        pokeEncounter={pokeEncounter}
+        areaNames={areaNames}
+        setLocationId={setLocationId}
+        pokeRegion={pokeRegion}
+        regionURLIndex={regionURLIndex}
+        regionLoc={regionLoc}
+        regionColor={regionColor}
+      />
+      <PokemonSelectorModal
+        pokemonTotal={pokemonTotal}
+        typeColorsShadows={typeColorsShadows}
+        typeColorsBg={typeColorsBg}
+        typeColorsBorder={typeColorsBorder}
+        typeColorsText={typeColorsText}
+        typeIcons={typeIcons}
+        pokemon={pokemon}
+        pokemonOrder={pokemonOrder}
+        setPokemonOrder={setPokemonOrder}
+      />
+      <PokemonDetails
+        AddToFavorites={AddToFavorites}
+        RemoveFromFavorites={RemoveFromFavorites}
+        favorites={favorites}
+        setFavorites={setFavorites}
+        pokemonEvolutions={pokemonEvolutions}
+        evolutionsSet={evolutionsSet}
+        pokemonMoves={pokemonMoves}
+        setPokemonMovesID={setPokemonMovesID}
+        pokemonType={pokemonType}
+        setTypeID={setTypeID}
+        pokemonAbilities={pokemonAbilities}
+        setPokemonAbilitiesID={setPokemonAbilitiesID}
+        setSearchString={setSearchString}
+        searchString={searchString}
+        setPokeEncounter={setPokeEncounter}
+        setPokemonOrder={setPokemonOrder}
+        typeColorsBorder={typeColorsBorder}
+        typeIcons={typeIcons}
+        typeColorsShadows={typeColorsShadows}
+        typeColorsBg={typeColorsBg}
+        pokemon={pokemon}
+        typeColorsText={typeColorsText}
+      />
+      <PokemonSearchModal
+        setPokemonName={setPokemonName}
+        possiblePokemon={possiblePokemon}
+        pokemon={pokemon}
+        setPokemonOrder={setPokemonOrder}
+        setValidSearch={setValidSearch}
+        validSearch={validSearch}
+        CheckSearch={CheckSearch}
+        searchString={searchString}
+        setSearchString={setSearchString}
+      />
+      <Favorites
+        setPokemonName={setPokemonName}
+        typeColorsShadows={typeColorsShadows}
+        setFavorites={setFavorites}
+        AddToFavorites={AddToFavorites}
+        RemoveFromFavorites={RemoveFromFavorites}
+        favorites={favorites}
+        typeColorsBorder={typeColorsBorder}
+        typeColorsText={typeColorsText}
+      />
     </div>
   );
 }

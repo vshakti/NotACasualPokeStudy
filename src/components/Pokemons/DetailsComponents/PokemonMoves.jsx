@@ -1,5 +1,5 @@
 import "../../../index.css";
-import * as HoverCard from "@radix-ui/react-hover-card";
+import * as Popover from "@radix-ui/react-popover";
 
 export function PokemonMoves({
   pokemon,
@@ -14,18 +14,18 @@ export function PokemonMoves({
     pokemon.moves
       .sort((a, b) => a.move.name.localeCompare(b.move.name))
       .map((moveObj, index) => (
-        <HoverCard.Root key={moveObj + index}>
-          <HoverCard.Trigger
+        <Popover.Root key={moveObj + index}>
+          <Popover.Trigger
             className={`${
               typeColorsBorder[pokemon.types[0]?.type.name]
             } hover:scale-110 cursor-pointer transition easy-in-out py-1.5 px-2 flex items-center w-max h-max justify-center border-b-2 border-t-2 rounded-md text-white font-semibold`}
-            onMouseOver={() => {
+            onClick={() => {
               setPokemonMovesID(moveObj.move.name);
             }}
           >
             {moveObj.move.name.toUpperCase().replace(/-+/g, " ")}
-          </HoverCard.Trigger>
-          <HoverCard.Content
+          </Popover.Trigger>
+          <Popover.Content
             openDelay={250}
             closeDelay={0}
             sideOffset={-5}
@@ -50,7 +50,7 @@ export function PokemonMoves({
                     } rounded-lg`}
                   />
                 </div>
-                <h2 className="px-2 py-1 max-h-64 w-full bg-slate-300 hover:rounded-2xl hover:border-8 hover:scale-150 transition easy-in-out cursor-pointer overflow-y-scroll hide-scrollbar border-slate-950 border-b-8 flex flex-wrap items-center justify-center font-medium text-sm">
+                <h2 className="px-2 py-1 max-h-64 w-full bg-slate-300 overflow-y-scroll hide-scrollbar border-slate-950 border-b-8 flex flex-wrap items-center justify-center font-medium text-sm">
                   {pokemonMoves.effect}
                 </h2>
                 <div className="flex flex-row w-full min-w-72">
@@ -236,8 +236,8 @@ export function PokemonMoves({
             ) : (
               <div className="size-24 bg-white">loading</div>
             )}
-          </HoverCard.Content>
-        </HoverCard.Root>
+          </Popover.Content>
+        </Popover.Root>
       ))
   ) : (
     <div>no moves</div>

@@ -1,5 +1,5 @@
 import "../../../index.css";
-import * as HoverCard from "@radix-ui/react-hover-card";
+import * as Popover from "@radix-ui/react-popover";
 
 export function PokemonType({
   pokemon,
@@ -11,9 +11,9 @@ export function PokemonType({
 }) {
   return pokemon.types && pokemon.types.length > 0 ? (
     pokemon.types.map((type, index) => (
-      <HoverCard.Root key={type.type + index}>
-        <HoverCard.Trigger
-          onMouseOver={() => {
+      <Popover.Root key={type.type + index}>
+        <Popover.Trigger
+          onClick={() => {
             setTypeID(type.type.name);
           }}
         >
@@ -24,11 +24,10 @@ export function PokemonType({
               typeColorsShadows[type.type.name]
             }`}
           />
-        </HoverCard.Trigger>
-        <HoverCard.Content
+        </Popover.Trigger>
+        <Popover.Content
           openDelay={250}
           closeDelay={0}
-          sideOffset={-45}
           className={`hoverCardContent`}
         >
           {pokemonType ? (
@@ -209,8 +208,8 @@ export function PokemonType({
           ) : (
             <div className="size-24 bg-white">loading</div>
           )}
-        </HoverCard.Content>
-      </HoverCard.Root>
+        </Popover.Content>
+      </Popover.Root>
     ))
   ) : (
     <div>no type</div>
