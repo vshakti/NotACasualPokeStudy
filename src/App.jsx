@@ -364,7 +364,7 @@ function App() {
     }
   }, [pokemonAbilitiesID]);
 
-  //função para procurar o pokemon pelo nome
+  //função para procurar o pokemon pelo nome exato
   function CheckSearch() {
     if (possiblePokemon.includes(searchString.toLowerCase())) {
       setPokemonName(searchString.toLowerCase());
@@ -614,72 +614,75 @@ function App() {
         >
           <ChevronDoubleRightIcon className="text-white" />
         </button>
+
+        <RegionSelectorModal
+          activeIndex={activeIndex}
+          pokeRegion={pokeRegion}
+          RGB={RGB}
+          regionColor={regionColor}
+          regionURLIndex={regionURLIndex}
+          setRegionURLIndex={setRegionURLIndex}
+          regionLoc={regionLoc}
+          setRegionLoc={setRegionLoc}
+          possibleOptions={possibleOptions}
+        />
+        <RegionDetails
+          setPokeEncounter={setPokeEncounter}
+          pokemonName={pokemonName}
+          setPokemonName={setPokemonName}
+          locationId={locationId}
+          pokeEncounterSprite={pokeEncounterSprite}
+          pokeEncounter={pokeEncounter}
+          areaNames={areaNames}
+          setLocationId={setLocationId}
+          pokeRegion={pokeRegion}
+          regionURLIndex={regionURLIndex}
+          regionLoc={regionLoc}
+          regionColor={regionColor}
+        />
+        <PokemonSelectorModal
+          pokemonTotal={pokemonTotal}
+          typeColorsShadows={typeColorsShadows}
+          typeColorsBg={typeColorsBg}
+          typeColorsBorder={typeColorsBorder}
+          typeColorsText={typeColorsText}
+          typeIcons={typeIcons}
+          pokemon={pokemon}
+          pokemonOrder={pokemonOrder}
+          setPokemonOrder={setPokemonOrder}
+        />
+        <PokemonDetails
+          pokemonEvolutions={pokemonEvolutions}
+          evolutionsSet={evolutionsSet}
+          pokemonMoves={pokemonMoves}
+          setPokemonMovesID={setPokemonMovesID}
+          pokemonType={pokemonType}
+          setTypeID={setTypeID}
+          pokemonAbilities={pokemonAbilities}
+          setPokemonAbilitiesID={setPokemonAbilitiesID}
+          setSearchString={setSearchString}
+          searchString={searchString}
+          setPokeEncounter={setPokeEncounter}
+          setPokemonOrder={setPokemonOrder}
+          typeColorsBorder={typeColorsBorder}
+          typeIcons={typeIcons}
+          typeColorsShadows={typeColorsShadows}
+          typeColorsBg={typeColorsBg}
+          pokemon={pokemon}
+          typeColorsText={typeColorsText}
+        />
+        <PokemonSearchModal
+          setPokemonName={setPokemonName}
+          possiblePokemon={possiblePokemon}
+          pokemon={pokemon}
+          setPokemonOrder={setPokemonOrder}
+          setValidSearch={setValidSearch}
+          validSearch={validSearch}
+          CheckSearch={CheckSearch}
+          searchString={searchString}
+          setSearchString={setSearchString}
+        />
       </div>
-      <RegionSelectorModal
-        activeIndex={activeIndex}
-        pokeRegion={pokeRegion}
-        RGB={RGB}
-        regionColor={regionColor}
-        regionURLIndex={regionURLIndex}
-        setRegionURLIndex={setRegionURLIndex}
-        regionLoc={regionLoc}
-        setRegionLoc={setRegionLoc}
-        possibleOptions={possibleOptions}
-      />
-      <RegionDetails
-        setPokeEncounter={setPokeEncounter}
-        pokemonName={pokemonName}
-        setPokemonName={setPokemonName}
-        locationId={locationId}
-        pokeEncounterSprite={pokeEncounterSprite}
-        pokeEncounter={pokeEncounter}
-        areaNames={areaNames}
-        setLocationId={setLocationId}
-        pokeRegion={pokeRegion}
-        regionURLIndex={regionURLIndex}
-        regionLoc={regionLoc}
-        regionColor={regionColor}
-      />
-      <PokemonSelectorModal
-        pokemonTotal={pokemonTotal}
-        typeColorsShadows={typeColorsShadows}
-        typeColorsBg={typeColorsBg}
-        typeColorsBorder={typeColorsBorder}
-        typeColorsText={typeColorsText}
-        typeIcons={typeIcons}
-        pokemon={pokemon}
-        pokemonOrder={pokemonOrder}
-        setPokemonOrder={setPokemonOrder}
-      />
-      <PokemonDetails
-        pokemonEvolutions={pokemonEvolutions}
-        evolutionsSet={evolutionsSet}
-        pokemonMoves={pokemonMoves}
-        setPokemonMovesID={setPokemonMovesID}
-        pokemonType={pokemonType}
-        setTypeID={setTypeID}
-        pokemonAbilities={pokemonAbilities}
-        setPokemonAbilitiesID={setPokemonAbilitiesID}
-        setSearchString={setSearchString}
-        searchString={searchString}
-        setPokeEncounter={setPokeEncounter}
-        setPokemonOrder={setPokemonOrder}
-        typeColorsBorder={typeColorsBorder}
-        typeIcons={typeIcons}
-        typeColorsShadows={typeColorsShadows}
-        typeColorsBg={typeColorsBg}
-        pokemon={pokemon}
-        typeColorsText={typeColorsText}
-      />
-      <PokemonSearchModal
-        pokemon={pokemon}
-        setPokemonOrder={setPokemonOrder}
-        setValidSearch={setValidSearch}
-        validSearch={validSearch}
-        CheckSearch={CheckSearch}
-        searchString={searchString}
-        setSearchString={setSearchString}
-      />
     </div>
   );
 }

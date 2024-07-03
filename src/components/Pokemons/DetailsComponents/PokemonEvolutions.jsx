@@ -15,7 +15,7 @@ export function PokemonEvolutions({
     evolutionsSet.name.map((name, index) => (
       <div key={name} className="flex flex-rol items-center justify-center">
         {index < evolutionsSet.sprites.length - 1 ? (
-          <div className="flex flex-row items-center gap-2 justify-center">
+          <div className="flex flex-row items-center justify-center">
             <div className="flex items-center justify-center flex-col gap-2 transition easy-in-out hover:scale-110">
               <div
                 className={`flex items-center flex-col py-0.5 justify-center border-b-2 rounded-lg ${
@@ -27,7 +27,7 @@ export function PokemonEvolutions({
                   alt={name}
                   className={`${
                     typeColorsBorder[evolutionsSet.types[index][0].type.name]
-                  } size-32`}
+                  } size-28`}
                 />
                 <p
                   className={`${
@@ -59,7 +59,7 @@ export function PokemonEvolutions({
                 )}
               </div>
             </div>
-            <ChevronDoubleRightIcon className="text-white size-12" />
+            <ChevronDoubleRightIcon className="text-white size-10" />
           </div>
         ) : (
           <div className="flex items-center justify-center flex-col gap-2 transition easy-in-out hover:scale-110">
@@ -73,7 +73,7 @@ export function PokemonEvolutions({
                 alt={name}
                 className={`${
                   typeColorsBorder[evolutionsSet.types[index][0].type.name]
-                } size-32`}
+                } size-28`}
               />
               <p
                 className={`${

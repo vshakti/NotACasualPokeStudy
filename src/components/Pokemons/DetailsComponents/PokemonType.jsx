@@ -41,7 +41,7 @@ export function PokemonType({
                 <h1
                   className={`${
                     typeColorsBorder[type.type.name]
-                  } border-b-2 px-3 bg-slate-800 rounded-t-2xl text-white flex items-center justify-center w-full`}
+                  } border-b-2 px-3 bg-slate-800 text-white flex items-center justify-center w-full`}
                 >
                   INNEFECTIVE TO
                 </h1>
@@ -60,7 +60,9 @@ export function PokemonType({
                     ))}
                   </div>
                 ) : (
-                  <span className="flex items-center jsutify-center text-2xl border-2 px-2 rounded-full bg-slate-800 text-white"></span>
+                  <span className="flex items-center jsutify-center text-2xl border-2 px-2 rounded-full bg-slate-800 text-white">
+                    X
+                  </span>
                 )}
               </div>
               <div className="hover:rounded-xl bg-slate-300 gap-y-1 flex flex-col items-center justify-center w-full py-1 space-y-1 text-lg font-medium tracking-tight">

@@ -48,17 +48,17 @@ export default function PokemonDetails({
                 pokemon.name.slice(1).replace(/-+/g, " ")}
             </h1>
           )}
-          {pokemon.name.length > 6 && pokemon.name.length <= 12 && (
+          {pokemon.name.length > 9 && pokemon.name.length <= 12 && (
             <h1
               className={`${
                 typeColorsText[pokemon.types[0]?.type.name]
-              } text-[1.65rem]`}
+              } text-[1.80rem]`}
             >
               {pokemon.name.charAt(0).toUpperCase() +
                 pokemon.name.slice(1).replace(/-+/g, " ")}
             </h1>
           )}
-          {pokemon.name.length <= 6 && (
+          {pokemon.name.length <= 9 && (
             <h1
               className={`${
                 typeColorsText[pokemon.types[0]?.type.name]
