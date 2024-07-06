@@ -7,6 +7,7 @@ import { type } from "./utils/importTypeIcons";
 import { PokemonSelectorModal } from "./components/Pokemons/PokemonSelector";
 import { PokemonSearchModal } from "./components/Pokemons/PokemonSearch";
 import { Favorites } from "./components/Favorites/Favorites";
+import { AnalysisModal } from "./components/Analysis/AnalysisModal";
 import { dexes } from "./utils/importPokebolas";
 import {
   ChevronDoubleLeftIcon,
@@ -33,7 +34,7 @@ function App() {
     "rgba(255, 153, 255, 0.8)",
     "rgba(255, 255, 255, 0.8)",
   ];
-  let possibleOptions = ["Regions", "Pokedex", "Favorites"];
+  let possibleOptions = ["Regions", "Pokedex", "Favorites", "Analysis"];
   const [activeIndex, setActiveIndex] = useState(0);
   const [locationId, setLocationId] = useState();
   const [areaNames, setAreaNames] = useState([]);
@@ -440,7 +441,7 @@ function App() {
     }
   }, [pokemon]);
 
-  // filtra por recursividade os nomes dos pokemons que estão na cadeia de evolução daquele do pokemon atual em ordem
+  // filtra por recursividade os nomes dos pokemons que estão na cadeia de evolução daquele pokemon atual em ordem
   useEffect(() => {
     if (pokemonEvolutionsURL && pokemonEvolutionsURL.length > 0) {
       axios
@@ -552,25 +553,21 @@ function App() {
     }
   }, [regionURLIndex, pokeRegion.length, setRegionLoc]);
 
-  //add aos favortis caso não esteja
   const AddToFavorites = (pokemon) => {
     if (!favorites.some((fav) => fav.id === pokemon.id)) {
-      setFavorites([...favorites, pokemon]);
+      const updatedFavorites = [...favorites, pokemon];
+      setFavorites(updatedFavorites);
     }
   };
 
-  //tira dos favoritos
   const RemoveFromFavorites = (pokemonId) => {
-    const updatedFavorites = favorites.filter(function (el) {
-      return el.id != pokemonId.id;
-    });
-
+    const updatedFavorites = favorites.filter((fav) => fav.id !== pokemonId.id);
     setFavorites(updatedFavorites);
   };
 
   return (
     <div className="fixed w-screen h-screen bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
-      <div className="flex-row flex items-center gap-x-2">
+      <div className="flex-row flex items-center gap-x-14">
         <button
           id="options_back"
           disabled={activeIndex <= 0}
@@ -624,7 +621,7 @@ function App() {
         </div>
         <button
           id="options_next"
-          disabled={activeIndex >= 2}
+          disabled={activeIndex >= 3}
           className="flex items-center justify-center size-14 transition ease-in-out hover:scale-125 duration-75"
           onClick={() => {
             setActiveIndex((prevIndex) =>
@@ -716,6 +713,7 @@ function App() {
         typeColorsBorder={typeColorsBorder}
         typeColorsText={typeColorsText}
       />
+      <AnalysisModal />
     </div>
   );
 }

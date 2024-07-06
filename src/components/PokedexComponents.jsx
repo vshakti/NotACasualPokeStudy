@@ -49,7 +49,7 @@ function DexHeader({
             }}
           >
             <div
-              className={`text-white rounded-full h-8 w-14 flex items-center justify-center transition ease-in-out hover:scale-125 duration-75 ${closeStyle}`}
+              className={`text-white rounded-full h-8 w-14 flex items-center justify-center ${closeStyle}`}
             >
               {children}
             </div>
