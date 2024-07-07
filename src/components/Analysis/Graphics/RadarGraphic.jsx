@@ -60,7 +60,9 @@ export function RadarChart({
         data: {
           labels: ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"],
           datasets: analysis.map((pokemon, index) => ({
-            label: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+            label:
+              pokemon.name.charAt(0).toUpperCase() +
+              pokemon.name.slice(1).replace(/-+/g, " "),
             data: [
               pokemon.stats[0].base_stat,
               pokemon.stats[1].base_stat,
@@ -112,7 +114,7 @@ export function RadarChart({
               position: "top",
               labels: {
                 font: {
-                  size: 16,
+                  size: 12,
                   family: "'Arial', sans-serif",
                   weight: "bold",
                 },
@@ -136,7 +138,7 @@ export function RadarChart({
 
   return (
     <div className="flex items-center justify-center flex-col">
-      <canvas className="size-96" ref={chartRef} />
+      <canvas className="size-80" ref={chartRef} />
     </div>
   );
 }

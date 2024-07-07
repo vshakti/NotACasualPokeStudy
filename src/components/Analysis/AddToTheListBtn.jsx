@@ -1,7 +1,7 @@
 import "../../index.css";
 import * as Popover from "@radix-ui/react-popover";
 import {
-  PlusCircleIcon,
+  BarsArrowDownIcon,
   CheckIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/16/solid";
@@ -24,16 +24,16 @@ export function BtnAnalysis({
   return (
     <Popover.Root>
       <Popover.Trigger>
-        <PlusCircleIcon className="bg-slate-800 size-14 shadow-lg shadow-dark text-white rounded-full" />
+        <BarsArrowDownIcon className="hover:scale-125 transition easy-in-out mr-2 size-14 p-2 bg-slate-700 shadow-lg shadow-dark text-slate-200 rounded-full" />
       </Popover.Trigger>
       <Popover.Content
         side="center"
-        sideOffset={60}
+        sideOffset={55}
         align="center"
-        alignOffset={20}
+        alignOffset={0}
         className="hoverCardContent"
       >
-        <div className="w-48 h-content max-h-96 rounded-xl bg-white  flex flex-col p-1.5">
+        <div className="w-48 shadow-regionSelectorLine h-content max-h-96 rounded-xl bg-white  flex flex-col p-1.5">
           <div className="flex flex-row w-full border-4 items-start justify-center rounded-3xl bg-white h-7 pr-2">
             <input
               className="rounded-xl w-full focus:outline-none flex items-center px-2 h-full"

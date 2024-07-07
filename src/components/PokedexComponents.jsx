@@ -1,7 +1,7 @@
 function DexBG({ children, bodyStyle, bodyGradient, bgStyle }) {
   return (
     <div
-      className={`fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center ${bgStyle}`}
+      className={`fixed inset-0 bg-black bg-opacity-25 backdrop-blur-md flex justify-center items-center ${bgStyle}`}
     >
       <div
         className={`flex-col rounded-3xl items-center overflow-hidden shadow-[0_0px_50px_5px_black] border-0.75 border-double border-slate-900 flex ${bodyStyle}`}

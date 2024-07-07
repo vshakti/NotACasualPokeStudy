@@ -15,14 +15,14 @@ export function AnalysisList({ analysis, RemoveFromAnalysis }) {
               }}
               src={analyze.sprite}
               alt={analyze.name}
-              className={`cursor-pointer size-10 border-2 bg-slate-500 shadow-pokemonDetailsSprite rounded-full`}
+              className={`cursor-pointer shadow-md shadow-dark size-10 border-2 bg-slate-600 rounded-full`}
             />
           </div>
         </div>
       ))
   ) : (
     <div className="flex items-center justify-center flex-col h-full w-full">
-      <span className="text-white font-medium text-xl px-2 py-1 rounded-xl border-2 bg-slate-800">
+      <span className="font-medium opacity-70 animate-pulse text-base text-slate-800">
         No pokemon in analysis
       </span>
     </div>

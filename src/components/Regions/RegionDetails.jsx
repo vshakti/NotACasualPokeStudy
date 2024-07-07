@@ -25,21 +25,20 @@ function RegionDetails({
       pokeEncounter.map((encounter, index) => (
         <div
           key={encounter + index}
-          className="font-sans rounded-sm w-fit flex-col h-fit border-slate-500 flex justify-center border-2 items-center font-bold text-base drop-shadow-2xl transition ease-in-out hover:scale-105 duration-75 cursor-pointer"
+          className="flex items-center cursor-pointer hover:scale-110 transition duration-300 relative flex-col py-0.5 justify-center border-b-2 rounded-lg"
         >
-          <div className="bg-opacity-25 bg-slate-500 text-white w-full flex items-center justify-center">
-            <img
-              src={`${pokeEncounterSprite[index]}`}
-              alt=""
-              onClick={() => {
-                setPokemonName(pokeEncounter[index]);
-                document.getElementById("pokemon_details").showModal();
-              }}
-              className="size-24"
-            />
-          </div>
+          <img
+            src={`${pokeEncounterSprite[index]}`}
+            alt=""
+            onClick={() => {
+              setPokemonName(pokeEncounter[index]);
+              document.getElementById("pokemon_details").showModal();
+            }}
+            className="size-24"
+          />
+
           <div
-            className="p-1 font-medium bg-slate-900 w-full flex items-center justify-center rounded-t-sm"
+            className="p-1 font-medium border-b-2 rounded-b-lg border-slate-800 w-full flex items-center justify-center rounded-t-sm"
             style={{ color: `${regionColor[regionURLIndex - 1]}` }}
             onClick={() => {
               setPokemonName(pokeEncounter[index]);
