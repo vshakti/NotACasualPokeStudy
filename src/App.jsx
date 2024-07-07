@@ -565,6 +565,22 @@ function App() {
     setFavorites(updatedFavorites);
   };
 
+  const [analysis, setAnalysis] = useState([]);
+
+  const AddToAnalysis = (pokemon) => {
+    if (!analysis.some((analysi) => analysi.id === pokemon.id)) {
+      const updatedAnalysis = [...analysis, pokemon];
+      setAnalysis(updatedAnalysis);
+    }
+  };
+
+  const RemoveFromAnalysis = (pokemonId) => {
+    const updatedAnalysis = analysis.filter(
+      (analysi) => analysi.id !== pokemonId.id
+    );
+    setAnalysis(updatedAnalysis);
+  };
+
   return (
     <div className="fixed w-screen h-screen bg-gradient-to-b flex items-center justify-center from-blue-950 to-sky-600">
       <div className="flex-row flex items-center gap-x-14">
@@ -713,7 +729,18 @@ function App() {
         typeColorsBorder={typeColorsBorder}
         typeColorsText={typeColorsText}
       />
-      <AnalysisModal />
+      <AnalysisModal
+        typeColorsBg={typeColorsBg}
+        typeColorsBorder={typeColorsBorder}
+        setAnalysis={setAnalysis}
+        RemoveFromAnalysis={RemoveFromAnalysis}
+        AddToAnalysis={AddToAnalysis}
+        analysis={analysis}
+        pokemonName={pokemonName}
+        pokemon={pokemon}
+        possiblePokemon={possiblePokemon}
+        setPokemonName={setPokemonName}
+      />
     </div>
   );
 }

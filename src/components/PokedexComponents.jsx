@@ -73,7 +73,7 @@ function DexHeader({
 function DexLine({ children, bodyLineStyle, bodyLinePlacement }) {
   return (
     <div
-      className={`shadow-regionSelectorLine relative w-full border-8 flex border-l-0 border-r-0 bg-slate-900 h-20 ${bodyLineStyle}`}
+      className={`shadow-regionSelectorLine relative w-full border-8 flex border-l-0 border-r-0 bg-slate-900 ${bodyLineStyle}`}
     >
       <div className="min-w-full min-h-full items-center justify-start overflow-hidden flex">
         <div className={`${bodyLinePlacement}`}>{children}</div>
